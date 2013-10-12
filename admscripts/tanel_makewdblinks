@@ -1,0 +1,4 @@
+rm /var/www/localhost/cgi-bin/wdb
+rm /var/www/localhost/htdocs/wdb
+ln -s /home/tanel/Ms/wdbsite/trunk/cgi-bin/ /var/www/localhost/cgi-bin/wdb
+ln -s /home/tanel/Ms/wdbsite/trunk/htdocs/ /var/www/localhost/htdocs/wdb

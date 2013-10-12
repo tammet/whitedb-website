@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A fast lightweight NoSQL database library written in C, operating fully in main memory."> 
+<meta name="author" content="Tanel Tammet, Priit Järv">
+<meta name="keywords" content="database, library, main memory, shared memory, speed" /> 
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta property="og:title" content="WhiteDB"/> 
+<meta property="og:url" content="http://www.whitedb.org"/> 
+<meta property="og:site_name" content="WhiteDB"/> 
+<meta property="og:type" content="website"/>
+<meta property="og:description" content="A fast lightweight NoSQL database library written in C, operating fully in main memory."/>
+<meta property="fb:admins" content="tanel.tammet"/>
+
+<link rel="shortcut icon" href="img/logo2.png">
+
+<title>Whitedb</title>
+<!--
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+-->
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="css/wdb.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+<![endif]-->
+  
+<style type="text/css">
+
+</style>
+<!-- <script src="js/jquery.js"></script> -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+function setleftmenu() {
+  var d;
+  d=$("#maincontainer").offset();
+  if (d && d.left && d.left>10) {
+    $("#sidemenu").css("left",""+d.left-300);    
+  }    
+}
+
+function shortenmenu(){
+ $('#sidemenu a').each(function(){
+    $(this).text($(this).text().substring(2));
+ });
+}
+
+/*
+function onscroll() {
+  var d2;
+  d2=window.pageYOffset;
+  //console.log(d2);
+  if (!d2) $("#sidemenu").css("top",""+84);
+  else {
+    if (d2>74) {
+      $("#sidemenu").css("top","10");
+    } else {
+      $("#sidemenu").css("top",""+84-d2);
+    }  
+  }      
+}
+*/
+
+$(document).ready(function(){  
+  shortenmenu();
+  setleftmenu();
+	$("dt").click(function(){
+		if(!$(this).hasClass("xopen")) {
+      $(this).addClass("xopen");
+      $(this).next().find("dl").slideDown(400);
+			//$(this).next().find("dl").css("display","block");      
+		} else {
+      $(this).removeClass("xopen");
+      $(this).next().find("dl").slideUp(400);
+      //$(this).next().find("dl").css("display","none");      
+    }        
+	});
+  $(window).resize(function() {
+    setleftmenu();
+  });
+})
+
+</script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+<div id="fb-root"></div>
+
+<div class="navbar navbar-inverse navbar-static-top" style="background-color: #333333;">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img class="logo" src="img/logo1.png"/>WhiteDB</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dummy"><a href="index.html">Home</a></li>        
+        <li class="dummy"><a href="tutorial.html">Tutorial</a></li>
+        <li class="active"><a href="speed.html">Speed</a></li>
+        <!-- <li class="dummy"><a href="scenarios.html">Scenarios</a></li> -->
+        <li class="dummy"><a href="c_api.html">C API</a></li>        
+        <li class="dummy"><a href="python_api.html">Python API</a></li> 
+        <li class="dummy"><a href="download.html">Download</a></li>
+        <li class="dummy"><a href="install.html">Install</a></li>
+        <li class="dummy"><a href="licence.html">Licence</a></li>
+        <li class="dummy"><a href="contact.html">Contact</a></li>        
+      </ul>
+    </div><!--/.navbar-collapse -->
+  </div>
+</div>
+
+<!-- content after titlebar -->
+
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="container" style="text-align: left">
+    <h1 class="jumbotron_title">Speed</h1>
+    <p class="jumbotron_caption">Ten million inserts and one million queries per second
+         for a single core</p>
+    </p>
+  </div>  
+</div>
+
+  
+<div class="container">
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="col-md-6 wblock wblock4">
+      <div class="wiblock wiblock61">
+      <h2>Core operations</h2>   
+        <p> 
+        Basic WhiteDB operations are extremely fast:
+        <ul>
+         <li>Inserting a new record of five fields and setting the values: <br>10 million records per second.
+         <li>Scanning a non-indexed field, counting occurrences of a value: 50 million records per second.
+         <li>Querying an indexed field from a database of 10 million records:  300 000 full queries per second.
+        </ul>      
+        <p>                
+        The numbers are obtained on a laptop with an Intel Core i7-2820QM and
+        8 gigabytes of RAM on a 32-bit Gentoo Linux, in a single process / core. 
+        See the details below.
+        <p>
+        For multithreaded efficiency and more complex loads
+        see the <a href="doc/WhiteDBYCSBtest_v3.pdf">Yahoo benchmark results</a>        
+      </div>
+    </div>
+    <div class="col-md-6 wblock wblock4">
+      <div class="wiblock wiblock62">
+      <h2>Comparisons</h2>
+        <p>      
+        Everybody knows that databases are not easy to compare: it really depends on actual usage. 
+        <p>
+        This said, we provide a comparison of WhiteDB with the leading NoSQL databases 
+        <a href="http://www.mongodb.com/">MongoDB</a> and <a href="http://redis.io/">Redis</a> in the main-memory mode, using 
+        <a href="https://github.com/brianfrankcooper/YCSB/wiki">the Yahoo cloudserving benchmark</a>.
+        <p>         
+The Yahoo benchmark is implemented in Java and runs predefined workloads
+against the chosen database engine, using one or multiple threads. Our results are favourable, although there
+is always room to improve.
+         <p>
+         <p class="wiblockbtn"><a class="btn btn-primary" href="doc/WhiteDBYCSBtest_v3.pdf">Yahoo benchmark results &raquo;</a></p>
+               
+      </div>
+    </div>     
+  </div>
+</div>  
+
+<div class="container" style="margin-top: 25px; margin-bottom: 25px;">
+<h1 style="text-align: center">Core speed tests</h1>
+</div>
+  
+
+<div class="container" id="maincontainer">
+  <div class="row">
+     <div class="col-md-12 wblock wblock1">
+      <div class="wiblock wiblock_full">      
+<p>
+<h2 class="title">1. Preliminaries</h2>
+<p>
+The tests below measure the speed of basic operations: creating a database, adding a record, inserting values, performing scans 
+and queries. The timings are obtained on a laptop with an Intel Core i7-2820QM and 8 gigabytes of 1333 Mhz RAM 
+running 32-bit Gentoo Linux. Both the library and the tests are compiled with gcc 4.2.4, using the 
+optimization level -O2.
+<p>
+The field size in a record is 32 bits. Using 64 bit fields would probably make the
+operations slightly slower. 
+<p>
+All the tests are run as a single process without threads, hence utilizing a single processor core and not requiring
+any locks. 
+As the <a href="doc/WhiteDBYCSBtest_v3.pdf">Yahoo benchmark results</a> indicate, you can get higher throughput using multiple
+processes/cores. On the other hand, multiple processes would require locking, i.e. inserting
+<code class="literal">wg_start_write</code>, <code class="literal">wg_start_read</code>, <code class="literal">wg_end_write</code>, <code class="literal">wg_end_read</code> from the C API into the test
+code. Locking speed depends
+on both where you call the lock functions and the locking strategy set during WhiteDB configuration. As said before, the
+following tests do not require and do not use locking.
+<p>
+<h2 class="title">2. How to run the tests</h2>
+<p>
+The tests are available as small standalone source files speed1.c, speed2.c etc. Compile and run them yourself by
+<pre class="literallayout">
+gcc speed1.c -o speed1 -O2 -lwgdb
+time speed1
+</pre>
+<p>
+Tests 1-8 create a new database, run the operations and then delete the database. Tests 10 and later will not delete
+the database: do it yourself by <code class="literal">wgdb N 10</code> where 10 is the test number (look at the test source). 
+<p>
+Make sure that you have sufficient shared memory before running the tests: all the tests assume that you have at least
+one gigabyte of shared memory available. Check the available amount and increase as necessary:
+<pre class="literallayout">
+less /proc/sys/kernel/shmmax
+su
+sysctl kernel.shmmax=1000000000
+</pre>
+Alternatively, replace the <code class="literal">wg_attach_database(name, 1000000000)</code> calls with 
+<code class="literal">wg_attach_local_database(1000000000)</code> to use ordinary non-shared memory, accompanied by 
+<code class="literal">wg_delete_local_database</code> later: this is ok for tests 1-9.
+<p>
+Below we will always present the wall-clock time as reported by <code class="literal">time</code>, including both user and system time.
+<p>
+
+<h2 class="title">3. Creating and deleting a database</h2>
+<p>
+<a href="doc/speed1.c">speed1.c</a> creates a new 1 gigabyte database and then immediately deletes the 
+database, repeating the whole process 1000 times. 
+<p>
+The time spent is ca 10 seconds, meaning that you can create and then delete a 
+1 gigabyte database 100 times per second. 
+<p>
+Creating/deleting a smaller database is faster: it takes 13 seconds to do 100 000 creations/deletions
+of a 10 megabyte database (the total amount of memory involved is the same as in the previous test).
+<p>
+The database creation time increases roughly linearly with the database size. Database creation splits
+the whole space into a number of subareas and datastructures, mostly organized into 
+free memory chunk lists for various sizes.
+<p>
+
+<!--
+In comparison, on the same system it takes ca 0.4 seconds to allocate 1 GB with conventional malloc,
+completely fill it with increasing 4-byte integers and then deallocate. 
+-->
+
+<p>
+<h2 class="title">4. Inserting records</h2>
+<p>
+
+<a href="doc/speed2.c">speed2.c</a> creates a new 1 gigabyte database and then creates 10 million records
+of length 5, with record values initialized to NULL.
+<p>
+The time spent is ca 0.6 seconds, meaning that you can create one 5-field record in ca 60 nanoseconds. 
+<p>
+In comparison, on the same system it takes ca 0.08 seconds to allocate 1 GB with conventional malloc and then
+just sequentially write 50 million integer 0 values: the same number of integers as the NULL-initialized
+fields in the database.
+<p>
+<a href="doc/speed3.c">speed3.c</a> performs a very similar task to speed2.c: it creates a new 1 gigabyte
+database and then creates 10 million records of length 5, this time <b>not</b> initializing the 
+field values.
+<p>
+The time spent by this faster version is ca 0.349 seconds.
+<p>
+<a href="doc/speed4.c">speed4.c</a>, again, creates a new 1 gigabyte database and then creates 10 million records
+of length 5, with record values initialized to NULL, this time deleting each newly created record immediately
+after creation.
+<p>
+The time spent by this create/delete version is ca 1.1 seconds.
+<p>
+
+
+<h2 class="title">5. Inserting and setting field values</h2>
+<p>
+
+In real life you insert a record to fill it with real values, not just NULL.
+<p>
+<h3 class="title">Integer values</h1>
+<p>
+<a href="doc/speed5.c">speed5.c</a> creates a new 1 gigabyte database, then creates 10 million records
+of length 5, with field values then set to integers of increasing value. 
+<p>
+Observe that integers
+stored are encoded. Also, we are using <code class="literal">wg_set_new_field</code> which assumes the field does
+not contain an allocated or indexed value. The conventional <code class="literal">wg_set_field</code> checks for
+the previous value (to deallocate/remove from index as necessary) and is slightly slower.
+<p>
+The time spent by this proper insert is 1.16 seconds. The slightly slower <code class="literal">wg_set_field</code>
+version takes 1.55 seconds.
+<p>
+Now, when we add code to read back the immediately written value from the base, decode and add it
+to a counter, we get the running time 1.77 seconds.
+<p>
+Next we modify the code to create just 1000 records, but fairly long ones: 50 thousand fields each,
+again filling them with growing integers.
+This gives us the same total number of fields as in the previous test. 
+<p>
+The time spent by the long-record version is 0.94 seconds, slightly faster than the initial proper
+insertion test.
+<p>
+<h3 class="title">String values</h1>
+<p>
+So far we have used integers, which should be expected to be the fastest value type. 
+<p>
+The next step is to experiment with strings. WhiteDB uses two different encoding methods for
+strings:
+<ul>
+<li>Strings shorter than 32 bytes are always separately allocated as 32-byte chunks, with the
+field containing a pointer to the string. 
+<li>Longer strings (and also short strings with an added language/namespace attribute) are 
+allocated uniquely: a single copy is kept of each string. This saves space and allows very
+fast string equality comparison: just pointers have to be compared. However, encoding a long string
+involves computing a hash of a string, looking it up from the hash table and inserting into
+hash chain, which takes some time.
+</ul>
+<p>
+<a href="doc/speed6.c">speed6.c</a> creates a new 1 gigabyte database, then creates 1 million records
+of length 5, with field values then set to a 30-byte string. NB! We have decreased the
+number of records from 10 million in previous tests to 1 million for a short string: otherwise the
+strings won't fit into our meager 1 GB database.
+<p>The time spent by the string-fields test is 0.4 seconds. This would translate to 4 seconds when compared
+with the 10 million records of the integer test, making the string-record insertion ca 3.5 times slower.
+<p>
+Testing with a 10-byte string instead of a 30-byte string has a very small effect.
+<p>
+<a href="doc/speed7.c">speed7.c</a> performs the same operations as the previous speed6, but this time
+using a 100-byte string as a field value. The string is kept uniquely, essentially just one copy
+for the whole database.
+<p>
+The time spent by the test is 1.5 seconds, about three times slower than the 30-byte string test was.
+The memory requirements are a lot lower for this test than the previous test, but this would change
+if we'd save a different string each time.
+<p>
+<h3 class="title">Double values</h1>
+<p>
+<a href="doc/speed8.c">speed8.c</a> performs the same operations as the last string tests, but using 
+a double value. Again, just one million records of five fields are created. All of these are allocated
+as 8-byte values. The field is assigned a pointer to the allocated value.
+<p>
+The time spent by the test is 0.19 seconds, which is significantly faster than the string tests.
+When compared to the integer tests of 10 million records, it would correspond to 1.9 seconds, which is 
+a bit slower than the integer test.
+
+<p>
+<h2 class="title">6. Scanning and queries</h2>
+<p>
+
+The first test <i>scans</i> the database, i.e. goes through all the records sequentially, looking for
+specific values in a given field. This is what happens when you search through a non-indexed field.
+The second test will query an indexed field and demonstrate, as expected, real speed.
+
+<p>
+<h3 class="title">Scanning records over a non-indexed value</h3>
+<p>
+
+<p>
+<a href="doc/speed10.c">speed10.c</a> builds 10 million records of five fields, with
+the value of field 3 assigned an integer stemming from the last five digits of the record number, 
+thus storing each number between 0...100 000 to 100 different records.
+<p>
+<a href="doc/speed11.c">speed11.c</a> takes the previously built database and scans through
+all the records, checking whether field 3 contains the value 123. Matching records are counted: there are
+100 of these.
+<p>
+The scanning test takes 0.2 seconds.
+In the other words, you can expect to scan through 50 million records in a second.
+
+<p>
+<h3 class="title">Querying records over an indexed value</h3>
+<p>
+
+<a href="doc/speed12.c">speed12.c</a> creates the T-tree index for the (integer) field 3 in the 
+previously created database of 10 million records with 100000 different values in the field.
+<p>
+The indexing test takes 6.5 seconds.
+<p>
+<a href="doc/speed13.c">speed13.c</a> performs a query over the previously indexed field 3,
+again looking for the value 123 and counting all the matching records (exactly 100). In order
+to make the time measureable, we repeat the whole query building / searching / fetching / deallocating
+process one million times.
+<p>
+The time to perform million queries is 3.2 seconds. In the other words, you can make ca 300 000 queries
+per second. For smaller databases the query time decreases logarithmically: running the same test on
+a 1000-record database takes 1.1 seconds, i.e. ca one million queries per second is the maximum
+speed you could get.
+
+
+<p>
+
+
+      </div>
+    </div>        
+  </div>
+</div>   
+
+<!-- footer -->
+
+<div class="ofooter">  
+ <div class="col-md-12 container ifooter">
+  <div style="text-align: right">
+    <a href="contact.html" style="color: #333333">WhiteDB team 2013</a>
+  </div>    
+  <p> 
+  <div style="position: absolute; top: 40px; left: 0px;">
+    <div class="g-plusone" data-annotation="none" data-size="large" data-expandTo="right"
+        data-href="http://www.whitedb.org">
+    </div>
+  </div>
+  <p>
+  <div style="position: absolute; top: 42px; left: 60px;">
+    <div>
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+         data-url="http://www.whitedb.org" data-hashtags="whitedb"
+         data-text="a fast database library in shared memory">Tweet</a>
+    </div>
+  </div>
+  <div style="position: absolute; top: 40px; left: 160px;">
+    <div class="fb-like" data-href="http://www.whitedb.org" 
+        data-colorscheme="light" 
+        data-layout="box-count" data-action="like" 
+        data-show-faces="true" data-send="true">
+    </div>
+  </div>
+  
+  </div>  
+</div> 
+
+<!-- at-end-scripts -->
+
+<!-- Bootstrap core JavaScript -->
+
+<script src="js/bootstrap.min.js"></script>
+
+<!-- social scripts -->
+
+<script>
+// facebook
+/*
+(function(d){
+   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement('script'); js.id = id; js.async = true;
+   js.src = "//connect.facebook.net/en_US/all.js";
+   ref.parentNode.insertBefore(js, ref);
+ }(document));  
+ */
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=168856549986981";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+// google 
+
+(function() {
+   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+   po.src = 'https://apis.google.com/js/client:plusone.js?onload=gplus_render';
+   //po.src = 'https://apis.google.com/js/plusone.js?';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+ })();
+
+// twitter 
+
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+  if(!d.getElementById(id)){js=d.createElement(s);js.id=id;
+  js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);
+  }}(document, 'script', 'twitter-wjs');
+  
+  
+// google analytics
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44786402-1', 'whitedb.org');
+  ga('send', 'pageview');
+
+</script>  
+</script>
+  
+</body>
+</html>

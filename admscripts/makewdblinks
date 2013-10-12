@@ -1,0 +1,11 @@
+rm /var/www/notify
+rm /usr/lib/cgi-bin/notify
+cp /opt/notify/trunk/cgi-bin/* /usr/lib/cgi-bin/
+ln -s /opt/notify/trunk/htdocs/ /var/www/notify
+
+#rm /usr/local/lib/python2.6/dist-packages/notify
+#rm /usr/local/lib/python2.6/dist-packages/fpdf
+ln -s /opt/notify/trunk/site-packages/notify/ /usr/local/lib/python2.7/dist-packages/notify
+ln -s /opt/notify/trunk/site-packages/fpdf/ /usr/local/lib/python2.7/dist-packages/fpdf
+
+# debian python-imaging (PIL) needed for fpdf!

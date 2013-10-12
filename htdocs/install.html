@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A fast lightweight NoSQL database library written in C, operating fully in main memory."> 
+<meta name="author" content="Tanel Tammet, Priit Järv">
+<meta name="keywords" content="database, library, main memory, shared memory, speed" /> 
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta property="og:title" content="WhiteDB"/> 
+<meta property="og:url" content="http://www.whitedb.org"/> 
+<meta property="og:site_name" content="WhiteDB"/> 
+<meta property="og:type" content="website"/>
+<meta property="og:description" content="A fast lightweight NoSQL database library written in C, operating fully in main memory."/>
+<meta property="fb:admins" content="tanel.tammet"/>
+
+<link rel="shortcut icon" href="img/logo2.png">
+
+<title>Whitedb</title>
+<!--
+<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+-->
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="css/wdb.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+<![endif]-->
+  
+<style type="text/css">
+
+</style>
+<!-- <script src="js/jquery.js"></script> -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+function setleftmenu() {
+  var d;
+  d=$("#maincontainer").offset();
+  if (d && d.left && d.left>10) {
+    $("#sidemenu").css("left",""+d.left-300);    
+  }    
+}
+
+function shortenmenu(){
+ $('#sidemenu a').each(function(){
+    $(this).text($(this).text().substring(2));
+ });
+}
+
+/*
+function onscroll() {
+  var d2;
+  d2=window.pageYOffset;
+  //console.log(d2);
+  if (!d2) $("#sidemenu").css("top",""+84);
+  else {
+    if (d2>74) {
+      $("#sidemenu").css("top","10");
+    } else {
+      $("#sidemenu").css("top",""+84-d2);
+    }  
+  }      
+}
+*/
+
+$(document).ready(function(){  
+  shortenmenu();
+  setleftmenu();
+	$("dt").click(function(){
+		if(!$(this).hasClass("xopen")) {
+      $(this).addClass("xopen");
+      $(this).next().find("dl").slideDown(400);
+			//$(this).next().find("dl").css("display","block");      
+		} else {
+      $(this).removeClass("xopen");
+      $(this).next().find("dl").slideUp(400);
+      //$(this).next().find("dl").css("display","none");      
+    }        
+	});
+  $(window).resize(function() {
+    setleftmenu();
+  });
+})
+
+</script>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+<div id="fb-root"></div>
+
+<div class="navbar navbar-inverse navbar-static-top" style="background-color: #333333;">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img class="logo" src="img/logo1.png"/>WhiteDB</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dummy"><a href="index.html">Home</a></li>        
+        <li class="dummy"><a href="tutorial.html">Tutorial</a></li>
+        <li class="dummy"><a href="speed.html">Speed</a></li>
+        <!-- <li class="dummy"><a href="scenarios.html">Scenarios</a></li> -->
+        <li class="dummy"><a href="c_api.html">C API</a></li>        
+        <li class="dummy"><a href="python_api.html">Python API</a></li> 
+        <li class="dummy"><a href="download.html">Download</a></li>
+        <li class="active"><a href="install.html">Install</a></li>
+        <li class="dummy"><a href="licence.html">Licence</a></li>
+        <li class="dummy"><a href="contact.html">Contact</a></li>        
+      </ul>
+    </div><!--/.navbar-collapse -->
+  </div>
+</div>
+
+<!-- content after titlebar -->
+
+
+<!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+  <div class="container" style="text-align: left">
+    <h1 class="jumbotron_title">Installation</h1>
+    <p class="jumbotron_caption">configure, make, make-install
+    </p>
+  </div>  
+</div>
+
+<div class="container">
+  <!-- Example row of columns -->
+  <div class="row">
+     <div class="col-md-12 wblock wblock1">
+      <div class="wiblock wiblock_full">
+      
+
+<div class="section"><div class="titlepage"><div><div>
+
+<h2 class="title" style="clear: both"><a id="_setting_up"></a>1.&nbsp;Setting up</h2></div></div></div><p>There are two primary ways you can use the distribution package:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+compile the database library (<span class="emphasis"><em>libwgdb.so</em></span> under Linux, <span class="emphasis"><em>wgdb.dll</em></span> under
+Windows) and link your application against that
+</li><li class="listitem">
+compile your application program by including the database files directly
+</li></ul></div><p>In both of  these cases your application using WhiteDB calls should
+include the API header file: <span class="emphasis"><em>dbapi.h</em></span></p><p>In addition, you may want to compile the included utility programs (<code class="literal">wgdb</code>
+and <code class="literal">indextool</code>) to manage the database.</p>
+
+<div class="section"><div class="titlepage"><div><div>
+
+<h3 class="title"><a id="_quick_start_instructions"></a>2.&nbsp;Quick-start instructions</h3></div></div></div><p>Under Linux, type</p><pre class="literallayout">./configure
+make
+make install</pre><p>This produces the database utilities, the library and installs the
+them together with the database header files. See
+<a class="xref" href="#anchor-3" title="4.1.&nbsp;Compiling and linking against WhiteDB installation">Section&nbsp;4.1, "Compiling and linking against WhiteDB installation"</a> for
+further instructions.</p><p>Under Windows, check that you have MSVC installed. Open the command
+prompt with the Visual C environment configured and type:</p><pre class="literallayout">compile.bat</pre><p>This produces the database utilities, <span class="emphasis"><em>wgdb.lib</em></span> and <span class="emphasis"><em>wgdb.dll</em></span>. See
+<a class="xref" href="#anchor-4" title="4.2.&nbsp;Dynamic linking under Windows">Section&nbsp;4.2, "Dynamic linking under Windows"</a> for further instructions.</p></div><div class="section"><div class="titlepage"><div><div>
+
+<h3 class="title"><a id="_the_shared_memory"></a>3.&nbsp;The shared memory</h3></div></div></div><p>Under Linux, the default memory settings are sufficient for testing
+and initial evaluation. For increasing the maximum amount of shared
+memory, type:</p><pre class="literallayout">sysctl kernel.shmmax=100000000</pre><p>This example sets the available shared memory to 100M bytes. You can
+add this setting to <span class="emphasis"><em>/etc/sysctl.conf</em></span> to make it permanent.</p><p>Under Windows, the shared memory is not persistent. To maintain a
+persistent database, use</p><pre class="literallayout">wgdb server 100000000</pre><p>This example creates a shared memory database of 100M bytes. Once
+this process is terminated, the shared memory is destroyed.</p></div><div class="section"><div class="titlepage"><div><div>
+
+<h3 class="title"><a id="_the_configure_script"></a>4. &nbsp;The configure script</h3></div></div></div><p>Some more relevant options to the configure script are:</p><p><span class="emphasis"><em>--prefix=PREFIX</em></span>  specifies the directory the program is
+installed under. The binaries go in <span class="emphasis"><em>PREFIX/bin</em></span>, the header files
+in <span class="emphasis"><em>PREFIX/include/whitedb</em></span> and the libraries in <span class="emphasis"><em>PREFIX/lib</em></span>.
+The Python modules, if compiled, will be placed in
+<span class="emphasis"><em>PREFIX/lib/pythonX.Y/site-packages</em></span>, where X.Y is the Python version</p><p><span class="emphasis"><em>--with-python</em></span>  compiles the Python bindings. By default, the configure
+script attempts to automatically locate a suitable version of Python. Use
+<span class="emphasis"><em>--with-python=/usr/bin/pythonX.Y</em></span> to point to a specific version
+of Python.</p><p><span class="emphasis"><em>--enable-locking</em></span>  changes the locking protocol. The available options
+are: <span class="emphasis"><em>rpspin</em></span> (a reader preference spinlock), <span class="emphasis"><em>wpspin</em></span> (a writer preference
+spinlock), <span class="emphasis"><em>tfqueue</em></span> (task-fair queue, no preference) and <span class="emphasis"><em>no</em></span> (locking
+is disabled). The default value is <span class="emphasis"><em>rpspin</em></span> which performs best for
+simple applications, under heavy workload other protocols may be
+preferrable.</p><p><span class="emphasis"><em>--enable-logging</em></span>  enables the journal log of the database. Still
+somewhat experimental; off by default.</p><p><span class="emphasis"><em>--enable-reasoner</em></span>  enables the Gandalf reasoner. Disabled by default.</p><p><span class="emphasis"><em>--disable-backlink</em></span>  disables references between records. May be used
+to increase performance if the database records never contain any
+links to other records.</p><p><span class="emphasis"><em>--disable-checking</em></span>  disables sanity checking in many internal
+database operations. Increases performance by a small percentage.</p><p><code class="literal">./configure --help</code> will provide the full list of available options.</p></div><div class="section"><div class="titlepage"><div><div>
+
+<h3 class="title"><a id="_building_the_utilities_without_configure_and_gnu_make"></a>5.&nbsp;Building the utilities without configure and GNU make</h3></div></div></div><p>The <code class="literal">compile.sh</code> script is provided to allow compiling the utilities
+with the C compiler. This is intended to simplify building in
+cross-target or embedded environments. It is assumed that the
+GNU C Compiler (<code class="literal">gcc</code>) is used.</p><p>When the script is executed the first time, it copies <span class="emphasis"><em>config-gcc.h</em></span>
+to <span class="emphasis"><em>config.h</em></span>, unless that file is already present. Edit <span class="emphasis"><em>config.h</em></span> to
+change database options.</p><p>Under Windows, <code class="literal">compile.bat</code> serves a similar function. To change the
+database options, edit the <span class="emphasis"><em>config-w32.h</em></span> file.</p><p>Note that in both cases, the config file for building the utilities
+<code class="literal">indextool</code> and <code class="literal">wgdb</code> should match the config file for building your
+database application.</p></div><div class="section"><div class="titlepage"><div><div>
+
+<h3 class="title"><a id="_not_building_anything"></a>6.&nbsp;Not building anything</h3></div></div></div><p>Building the database library and the utilities is not strictly necessary.
+Alternatively you may compile the database sources directly into your
+program, see the section "Compiling with database source files"</a> for details.</p></div></div>
+
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="anchor-4"></a>7.&nbsp;Dynamic linking under Windows</h3></div></div></div><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+Include the API headers
+</li></ul></div><pre class="programlisting">#include &lt;dbapi.h&gt;
+#include &lt;rdfapi.h&gt; /* only for using the raptor API */
+#include &lt;indexapi.h&gt; /* only for using the index API */</pre><p>This requires providing the header file directory to the compiler.</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem"><p class="simpara">
+Compile and link against the library
+</p><pre class="literallayout">cl.exe /I"..\whitedb-0.6\Db" yourprog.c ..\whitedb-0.6\wgdb.lib</pre></li></ul></div><p>This produces <span class="emphasis"><em>yourprog.exe</em></span> that requires <span class="emphasis"><em>wgdb.dll</em></span> to run.</p><p>The <span class="emphasis"><em>compile.bat</em></span> and Examples directory also contains compilation
+examples.</p></div>
+
+<div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="anchor-5"></a>8.&nbsp;Compiling with database source files under Windows</h3></div></div></div><p>See <span class="emphasis"><em>Examples/compile_demo.sh</em></span> (<span class="emphasis"><em>Examples\compile_demo.bat</em></span> under
+Windows). This compiles the demo program <span class="emphasis"><em>demo.c</em></span> with the WhiteDB source
+files.</p><p>These programs and scripts may be used as templates for creating
+database applications.</p></div></div>
+
+      </div>
+    </div>        
+  </div>
+</div>
+
+<!-- footer -->
+
+<div class="ofooter">  
+ <div class="col-md-12 container ifooter">
+  <div style="text-align: right">
+    <a href="contact.html" style="color: #333333">WhiteDB team 2013</a>
+  </div>    
+  <p> 
+  <div style="position: absolute; top: 40px; left: 0px;">
+    <div class="g-plusone" data-annotation="none" data-size="large" data-expandTo="right"
+        data-href="http://www.whitedb.org">
+    </div>
+  </div>
+  <p>
+  <div style="position: absolute; top: 42px; left: 60px;">
+    <div>
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+         data-url="http://www.whitedb.org" data-hashtags="whitedb"
+         data-text="a fast database library in shared memory">Tweet</a>
+    </div>
+  </div>
+  <div style="position: absolute; top: 40px; left: 160px;">
+    <div class="fb-like" data-href="http://www.whitedb.org" 
+        data-colorscheme="light" 
+        data-layout="box-count" data-action="like" 
+        data-show-faces="true" data-send="true">
+    </div>
+  </div>
+  
+  </div>  
+</div> 
+
+<!-- at-end-scripts -->
+
+<!-- Bootstrap core JavaScript -->
+
+<script src="js/bootstrap.min.js"></script>
+
+<!-- social scripts -->
+
+<script>
+// facebook
+/*
+(function(d){
+   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+   if (d.getElementById(id)) {return;}
+   js = d.createElement('script'); js.id = id; js.async = true;
+   js.src = "//connect.facebook.net/en_US/all.js";
+   ref.parentNode.insertBefore(js, ref);
+ }(document));  
+ */
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=168856549986981";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+// google 
+
+(function() {
+   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+   po.src = 'https://apis.google.com/js/client:plusone.js?onload=gplus_render';
+   //po.src = 'https://apis.google.com/js/plusone.js?';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+ })();
+
+// twitter 
+
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+  if(!d.getElementById(id)){js=d.createElement(s);js.id=id;
+  js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);
+  }}(document, 'script', 'twitter-wjs');
+  
+  
+// google analytics
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44786402-1', 'whitedb.org');
+  ga('send', 'pageview');
+
+</script>  
+</script>
+  
+</body>
+</html>
