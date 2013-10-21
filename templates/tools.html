@@ -1,0 +1,59 @@
+<!-- jumbotron for a primary message  -->
+
+<div class="jumbotron" id="jumbotron">
+  <div class="container" style="text-align: left">
+    <h1 class="jumbotron_title">Tools</h1>
+    <p class="jumbotron_caption">For command line and json over http
+    </p>
+  </div>  
+</div>
+
+<!-- sidemenu for large screens -->
+
+<div id="sidemenu" class="hidden-print sidemenu" role="complementary">
+<div class="isidemenu">  
+<h3 class="menutitle">Contents</h3>
+<dl class="toc"><dt><span class="section"><a href="#_wgdb_general_database_management">1. wgdb - general database management</a></span></dt><dt><span class="section"><a href="#_indextool_index_management">2. indextool - index management</a></span></dt></dl>
+</div>
+</div>
+
+<!-- main content -->
+
+<div class="container" id="maincontainer">
+  <div class="row">
+     <div class="col-md-12 wblock wblock1">
+      <div class="wiblock wiblock_full">      
+<div class="toc">
+<dl class="toc"><dt><span class="section"><a href="#_wgdb_general_database_management">1. wgdb - general database management</a></span></dt><dt><span class="section"><a href="#_indextool_index_management">2. indextool - index management</a></span></dt></dl>
+</div> <!-- inner toc end -->
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_wgdb_general_database_management"></a>1. wgdb - general database management</h2></div></div></div><p>This is a simple command-line utility that allows creating and freeing
+a database, dump, import, run some tests and more.</p><p>Usage:</p><pre class="literallayout">wgdb [shmname] &lt;command&gt; [command arguments]</pre><p>The shared memory name identifies the database to use and is an arbitrary
+numeric value. If it is omitted, the default ("1000") will be used.</p><p>Commands commonly available:</p><pre class="literallayout">help (or "-h") - display this text.
+version (or "-v") - display libwgdb version.
+free - free shared memory.
+export &lt;filename&gt; - write memory dump to disk.
+import &lt;filename&gt; - read memory dump from disk. Overwrites existing memory contents.
+exportcsv &lt;filename&gt; - export data to a CSV file.
+importcsv &lt;filename&gt; - import data from a CSV file.
+replay &lt;filename&gt; - replay a journal file.
+test - run quick database tests.
+fulltest - run in-depth database tests.
+header - print header data.
+fill &lt;nr of rows&gt; [asc | desc | mix] - fill db with integer data.
+add &lt;value1&gt; .. - store data row (only int or str recognized)
+select &lt;number of rows&gt; [start from] - print db contents.
+query &lt;col&gt; "&lt;cond&gt;" &lt;value&gt; .. - basic query.
+del &lt;col&gt; "&lt;cond&gt;" &lt;value&gt; .. - like query. Matching rows are deleted from database.
+server [size b] - provide persistent shared memory for other processes (Windows).
+create [size b] - create empty db of given size (non-Windows).</pre></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_indextool_index_management"></a>2. indextool - index management</h2></div></div></div><p><code class="literal">indextool</code> is for listing and managing database indexes. It takes the shared
+memory name as an argument (there is no default). The <code class="literal">logtree</code> and <code class="literal">dumphash</code>
+commands are for debugging and may produce a lot of output.</p><pre class="literallayout">indextool [shmname] createindex &lt;column&gt; - create ttree index
+indextool [shmname] createhash &lt;columns&gt; - create hash index (JSON support)
+indextool [shmname] dropindex &lt;index id&gt; - delete ttree index
+indextool [shmname] list - list all indexes in database
+indextool [shmname] logtree &lt;index id&gt; [filename] - log tree
+indextool [shmname] dumphash &lt;index id&gt; - print hash table</pre></div></div>
+      </div>
+    </div>        
+  </div>
+</div>  

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>WhiteDB Installation</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.0" /></head><body><div xml:lang="en" class="article" lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="idp1390263120"></a>WhiteDB Installation</h2></div></div><hr /></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#_introduction">1. Introduction</a></span></dt><dt><span class="section"><a href="#_quick_start_instructions">2. Quick-start instructions</a></span></dt><dt><span class="section"><a href="#_the_shared_memory">3. The shared memory</a></span></dt><dt><span class="section"><a href="#_the_configure_script">4. The configure script</a></span></dt><dt><span class="section"><a href="#_building_the_utilities_without_configure_and_gnu_make">5. Building the utilities without configure and GNU make</a></span></dt><dt><span class="section"><a href="#_not_building_anything">6. Not building anything</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_introduction"></a>1. Introduction</h2></div></div></div><p>There are two primary ways you can use the distribution package:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+compile the database library (<span class="emphasis"><em>libwgdb.so</em></span> under Linux, <span class="emphasis"><em>wgdb.dll</em></span> under
+Windows) and link your application against that
+</li><li class="listitem">
+compile your application program by including the database files directly
+</li></ul></div><p>In both of  these cases your application using WhiteDB calls should
+include the API header file: <span class="emphasis"><em>dbapi.h</em></span></p><p>In addition, you may want to compile the included utility programs (<code class="literal">wgdb</code>
+and <code class="literal">indextool</code>) to manage the database.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_quick_start_instructions"></a>2. Quick-start instructions</h2></div></div></div><p>Under Linux, type</p><pre class="literallayout">./configure
+make
+make install</pre><p>This produces the database utilities, the library and installs the
+them together with the database header files.</p><p>Under Windows, check that you have MSVC installed. Open the command
+prompt with the Visual C environment configured and type:</p><pre class="literallayout">compile.bat</pre><p>This produces the database utilities, <span class="emphasis"><em>wgdb.lib</em></span> and <span class="emphasis"><em>wgdb.dll</em></span>.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_the_shared_memory"></a>3. The shared memory</h2></div></div></div><p>Under Linux, the default memory settings are sufficient for testing
+and initial evaluation. For increasing the maximum amount of shared
+memory, type:</p><pre class="literallayout">sysctl kernel.shmmax=100000000</pre><p>This example sets the available shared memory to 100M bytes. You can
+add this setting to <span class="emphasis"><em>/etc/sysctl.conf</em></span> to make it permanent.</p><p>Under Windows, the shared memory is not persistent. To maintain a
+persistent database, use</p><pre class="literallayout">wgdb server 100000000</pre><p>This example creates a shared memory database of 100M bytes. Once
+this process is terminated, the shared memory is destroyed.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_the_configure_script"></a>4. The configure script</h2></div></div></div><p>Some more relevant options to the configure script are:</p><p><span class="emphasis"><em>--prefix=PREFIX</em></span>  specifies the directory the program is
+installed under. The binaries go in <span class="emphasis"><em>PREFIX/bin</em></span>, the header files
+in <span class="emphasis"><em>PREFIX/include/whitedb</em></span> and the libraries in <span class="emphasis"><em>PREFIX/lib</em></span>.
+The Python modules, if compiled, will be placed in
+<span class="emphasis"><em>PREFIX/lib/pythonX.Y/site-packages</em></span>, where X.Y is the Python version</p><p><span class="emphasis"><em>--with-python</em></span>  compiles the Python bindings. By default, the configure
+script attempts to automatically locate a suitable version of Python. Use
+<span class="emphasis"><em>--with-python=/usr/bin/pythonX.Y</em></span> to point to a specific version
+of Python.</p><p><span class="emphasis"><em>--enable-locking</em></span>  changes the locking protocol. The available options
+are: <span class="emphasis"><em>rpspin</em></span> (a reader preference spinlock), <span class="emphasis"><em>wpspin</em></span> (a writer preference
+spinlock), <span class="emphasis"><em>tfqueue</em></span> (task-fair queue, no preference) and <span class="emphasis"><em>no</em></span> (locking
+is disabled). The default value is <span class="emphasis"><em>tfqueue</em></span> which performs best under heavy
+workload. For simple applications <span class="emphasis"><em>rpspin</em></span> may be preferrable, as it has
+lower overhead.</p><p><span class="emphasis"><em>--enable-logging</em></span>  enables the journal log of the database. Still
+somewhat experimental; off by default.</p><p><span class="emphasis"><em>--enable-reasoner</em></span>  enables the Gandalf reasoner. Disabled by default.</p><p><span class="emphasis"><em>--disable-backlink</em></span>  disables references between records. May be used
+to increase performance if the database records never contain any
+links to other records.</p><p><span class="emphasis"><em>--disable-checking</em></span>  disables sanity checking in many internal
+database operations. Increases performance by a small percentage.</p><p><code class="literal">./configure --help</code> will provide the full list of available options.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_building_the_utilities_without_configure_and_gnu_make"></a>5. Building the utilities without configure and GNU make</h2></div></div></div><p>The <code class="literal">compile.sh</code> script is provided to allow compiling the utilities
+with the C compiler. This is intended to simplify building in
+cross-target or embedded environments. It is assumed that the
+GNU C Compiler (<code class="literal">gcc</code>) is used.</p><p>When the script is executed the first time, it copies <span class="emphasis"><em>config-gcc.h</em></span>
+to <span class="emphasis"><em>config.h</em></span>, unless that file is already present. Edit <span class="emphasis"><em>config.h</em></span> to
+change database options.</p><p>Under Windows, <code class="literal">compile.bat</code> serves a similar function. To change the
+database options, edit the <span class="emphasis"><em>config-w32.h</em></span> file.</p><p>Note that in both cases, the config file for building the utilities
+<code class="literal">indextool</code> and <code class="literal">wgdb</code> should match the config file for building your
+database application.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_not_building_anything"></a>6. Not building anything</h2></div></div></div><p>Building the database library and the utilities is not strictly necessary.
+Alternatively you may compile the database sources directly into your
+program.</p><p>See <span class="emphasis"><em>Examples/compile_demo.sh</em></span> (<span class="emphasis"><em>Examples\compile_demo.bat</em></span> under
+Windows). This compiles the demo program <span class="emphasis"><em>demo.c</em></span> with the WhiteDB source
+files. These programs and scripts may be used as templates for creating
+database applications.</p></div></div></body></html>
