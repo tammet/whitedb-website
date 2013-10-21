@@ -1,25 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head itemscope>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A fast lightweight NoSQL database library written in C, operating fully in main memory."> 
-<meta name="author" content="Tanel Tammet, Priit Järv">
-<meta name="keywords" content="database, library, main memory, shared memory, speed" /> 
 
-<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="A fast lightweight NoSQL shared memory database library written in C">
+<meta name="author" content="Tanel Tammet, Priit JÃ¤rv">
+<meta name="keywords" content="database, library, main memory, shared memory, speed, NoSQL" /> 
+
+<meta itemprop="itemtype" content="http://schema.org/SoftwareApplication" />
+<meta itemprop="name" content="WhiteDB" />
+<meta itemprop="description" content="WhiteDB is a fast, lightweight NoSQL shared memory database library written in C." />
+<meta itemprop="url" content="http://www.whitedb.org" />
+<meta itemprop="operatingSystems" content="Linux, Windows" />
+<meta itemprop="softwareApplicationCategory" content="DeveloperApplication" />
+
 <meta property="og:title" content="WhiteDB"/> 
 <meta property="og:url" content="http://www.whitedb.org"/> 
 <meta property="og:site_name" content="WhiteDB"/> 
 <meta property="og:type" content="website"/>
-<meta property="og:description" content="A fast lightweight NoSQL database library written in C, operating fully in main memory."/>
+<meta property="og:description" content="A fast lightweight NoSQL shared memory database library written in C."/>
 <meta property="fb:admins" content="tanel.tammet"/>
 
 <link rel="shortcut icon" href="img/logo2.png">
 
 <title>Whitedb</title>
 <!--
-<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet' type='text/css'>
 -->
 <!-- Bootstrap core CSS -->
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -30,10 +38,9 @@
   <script src="js/html5shiv.js"></script>
   <script src="js/respond.min.js"></script>
 <![endif]-->
-  
-<style type="text/css">
-
-</style>
+<!--  
+<style type="text/css"></style>
+-->
 <!-- <script src="js/jquery.js"></script> -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>
@@ -90,7 +97,7 @@ $(document).ready(function(){
 </script>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
+<body>
 
 <div id="fb-root"></div>
 
@@ -111,7 +118,8 @@ $(document).ready(function(){
         <li class="dummy"><a href="speed.html">Speed</a></li>
         <!-- <li class="dummy"><a href="scenarios.html">Scenarios</a></li> -->
         <li class="dummy"><a href="c_api.html">C API</a></li>        
-        <li class="dummy"><a href="python_api.html">Python API</a></li> 
+        <li class="dummy"><a href="python_api.html">Python</a></li> 
+        <li class="dummy"><a href="tools.html">Tools</a></li>
         <li class="dummy"><a href="download.html">Download</a></li>
         <li class="dummy"><a href="install.html">Install</a></li>
         <li class="dummy"><a href="licence.html">Licence</a></li>
@@ -124,16 +132,18 @@ $(document).ready(function(){
 <!-- content after titlebar -->
 
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
+
+<!-- Main jumbotron for a primary message -->
 <div class="jumbotron">
   <div class="container">
     <h1 style="color: #bbbbbb; text-shadow: 2px 2px #f0f0f0;">Pure speed</h1>
-    <p style="color: #666666; margin-bottom: 20px;">WhiteDB is a lightweight NoSQL database library written in C, operating fully in main memory. 
+    <p style="color: #666666; margin-bottom: 20px;">
+    WhiteDB is a lightweight NoSQL database library written in C, operating fully in main memory. 
     There is no server process. Data is read and written directly from/to shared memory, no sockets are used between
     WhiteDB and the application program.</p>
     <p><a class="btn btn-primary btn-lg btn-top" style="margin-right: 30px;" href="tutorial.html">Tutorial </a>
        <a class="btn btn-default btn-lg btn-top" style="color: #bbbbbb; margin-right: 30px;" href="speed.html">Speed </a>
-       <a class="btn btn-default btn-lg btn-top" style="color: #bbbbbb;" href="download.html">Download </a></p>
+       <a class="btn btn-default btn-lg btn-top" style="color: #bbbbbb; margin-right: 30px;" href="download.html">Download </a></p>
   </div>
 </div>
 
@@ -163,8 +173,12 @@ $(document).ready(function(){
         Data is kept in shared memory by default, making all the data accessible to separate processes.
         <p>
         Each database record is a tuple of N elements, encoded in WhiteDB-s simple compact format.
+        You can store both conventional datatypes and direct pointers to records: the latter
+        enables highly efficient traversal of complex data.
+        <!--
         The available data types include decimal and floating point numbers, strings, URIs, time and date, BLOB,
         pointers to records and more. 
+        -->
       </div>
     </div>
     <div class="col-md-4 wblock wblock1">
@@ -180,6 +194,7 @@ $(document).ready(function(){
         <li>Linux and Windows
         <li>Python bindings
         <li>Command line utility tools
+        <li>Json REST tools
         </ul>
       </div>
    </div>
@@ -259,12 +274,12 @@ $(document).ready(function(){
     The integers in the tuple encode values directly or as pointers. Columns have no type: any encoded
     value can be stored to any field.
     <p>
-    You can always get a direct pointer to a record or any element of it and freely change the values. Obviously,
-    for indexed columns you'll have to call the index modifier after a direct change. In a normal
-    case you'll just call a changing function which calls the index modifier for you.
+    You can always get a direct pointer to a record, store it into a field of a record 
+    or use it in your own program directly. A record pointer can thus be used as an automatically
+    assigned id of the record which requires no search at all to access the record.
     <p>
-    Records are chained via pointers. To search for a record, either scan the chain of all records or
-    perform an index search on an indexed field.
+    To search for a record, either scan the chain of all records, scan a sublist/tree you
+    have built yourself or perform an index search on an indexed field.
       </div>
     </div>
     <div class="col-md-4 wblock wblock3">
@@ -274,12 +289,16 @@ $(document).ready(function(){
       The low bits of an integer in a record indicate the type of data. Anything which does not fit into the
       remainining bits is allocated separately and pointed to by the same integer. 
       <p>
-      The datatypes are null, record(pointer), integer, double, string (with optional language field), 
-      xml literal (with optional namespace field), uri, blob,
-      char, date, time, pointer to record.
+      The datatypes are null, record(pointer), integer, double, string, 
+      xml literal, uri, blob,  char, date, time, pointer to record. 
       <p>
       Long strings are allocated uniquely, i.e. using the same string in many fields does not
-      take up additional space: this allows for fast string equality check as well.      
+      take up additional space and allows fast string equality check.    
+      <p>      
+      A record pointer is a persistent offset of the record, usable
+      as an automatic id of the record. Pointers allow 
+      <a href="http://en.wikipedia.org/wiki/Graph_database">fast traversal of
+      complex data</a> without search.
       </div>
     </div>
     <div class="col-md-4 wblock wblock3">
@@ -318,7 +337,7 @@ $(document).ready(function(){
       <p>
   We use a database level lock implemented via a task-fair 
   atomic <a href="http://en.wikipedia.org/wiki/Spinlock">spinlock</a> queue for concurrency control,
-  but alternative preference policies can be configured: either a simple 
+  but alternative faster and simpler preference policies can be configured: either a  
   reader-preference or a writer-preference spinlock.
   <p>
   Generally, a database level lock is characterized by very low overhead but 
@@ -365,24 +384,24 @@ $(document).ready(function(){
 
 <div class="ofooter">  
  <div class="col-md-12 container ifooter">
-  <div style="text-align: right">
-    <a href="contact.html" style="color: #333333">WhiteDB team 2013</a>
+  <div id="team">
+    <a href="contact.html" style="color: #666666; font-family: 'Roboto'; font-size: 16px;">WhiteDB team 2013</a>
   </div>    
   <p> 
-  <div style="position: absolute; top: 40px; left: 0px;">
+  <div id="gplusone">
     <div class="g-plusone" data-annotation="none" data-size="large" data-expandTo="right"
         data-href="http://www.whitedb.org">
     </div>
   </div>
   <p>
-  <div style="position: absolute; top: 42px; left: 60px;">
+  <div id="twitter">
     <div>
     <a href="https://twitter.com/share" class="twitter-share-button" 
          data-url="http://www.whitedb.org" data-hashtags="whitedb"
          data-text="a fast database library in shared memory">Tweet</a>
     </div>
   </div>
-  <div style="position: absolute; top: 40px; left: 160px;">
+  <div id="facebook">
     <div class="fb-like" data-href="http://www.whitedb.org" 
         data-colorscheme="light" 
         data-layout="box-count" data-action="like" 
@@ -403,15 +422,7 @@ $(document).ready(function(){
 
 <script>
 // facebook
-/*
-(function(d){
-   var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-   if (d.getElementById(id)) {return;}
-   js = d.createElement('script'); js.id = id; js.async = true;
-   js.src = "//connect.facebook.net/en_US/all.js";
-   ref.parentNode.insertBefore(js, ref);
- }(document));  
- */
+
 (function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
@@ -420,7 +431,7 @@ $(document).ready(function(){
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-// google 
+// google+ 
 
 (function() {
    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -435,8 +446,7 @@ $(document).ready(function(){
   if(!d.getElementById(id)){js=d.createElement(s);js.id=id;
   js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);
   }}(document, 'script', 'twitter-wjs');
-  
-  
+    
 // google analytics
 
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -448,7 +458,6 @@ $(document).ready(function(){
   ga('send', 'pageview');
 
 </script>  
-</script>
   
 </body>
 </html>

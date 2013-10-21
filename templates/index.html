@@ -1,14 +1,16 @@
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
+
+<!-- Main jumbotron for a primary message -->
 <div class="jumbotron">
   <div class="container">
     <h1 style="color: #bbbbbb; text-shadow: 2px 2px #f0f0f0;">Pure speed</h1>
-    <p style="color: #666666; margin-bottom: 20px;">WhiteDB is a lightweight NoSQL database library written in C, operating fully in main memory. 
+    <p style="color: #666666; margin-bottom: 20px;">
+    WhiteDB is a lightweight NoSQL database library written in C, operating fully in main memory. 
     There is no server process. Data is read and written directly from/to shared memory, no sockets are used between
     WhiteDB and the application program.</p>
     <p><a class="btn btn-primary btn-lg btn-top" style="margin-right: 30px;" href="tutorial.html">Tutorial </a>
        <a class="btn btn-default btn-lg btn-top" style="color: #bbbbbb; margin-right: 30px;" href="speed.html">Speed </a>
-       <a class="btn btn-default btn-lg btn-top" style="color: #bbbbbb;" href="download.html">Download </a></p>
+       <a class="btn btn-default btn-lg btn-top" style="color: #bbbbbb; margin-right: 30px;" href="download.html">Download </a></p>
   </div>
 </div>
 
@@ -38,8 +40,12 @@
         Data is kept in shared memory by default, making all the data accessible to separate processes.
         <p>
         Each database record is a tuple of N elements, encoded in WhiteDB-s simple compact format.
+        You can store both conventional datatypes and direct pointers to records: the latter
+        enables highly efficient traversal of complex data.
+        <!--
         The available data types include decimal and floating point numbers, strings, URIs, time and date, BLOB,
         pointers to records and more. 
+        -->
       </div>
     </div>
     <div class="col-md-4 wblock wblock1">
@@ -55,6 +61,7 @@
         <li>Linux and Windows
         <li>Python bindings
         <li>Command line utility tools
+        <li>Json REST tools
         </ul>
       </div>
    </div>
@@ -134,12 +141,12 @@
     The integers in the tuple encode values directly or as pointers. Columns have no type: any encoded
     value can be stored to any field.
     <p>
-    You can always get a direct pointer to a record or any element of it and freely change the values. Obviously,
-    for indexed columns you'll have to call the index modifier after a direct change. In a normal
-    case you'll just call a changing function which calls the index modifier for you.
+    You can always get a direct pointer to a record, store it into a field of a record 
+    or use it in your own program directly. A record pointer can thus be used as an automatically
+    assigned id of the record which requires no search at all to access the record.
     <p>
-    Records are chained via pointers. To search for a record, either scan the chain of all records or
-    perform an index search on an indexed field.
+    To search for a record, either scan the chain of all records, scan a sublist/tree you
+    have built yourself or perform an index search on an indexed field.
       </div>
     </div>
     <div class="col-md-4 wblock wblock3">
@@ -149,12 +156,16 @@
       The low bits of an integer in a record indicate the type of data. Anything which does not fit into the
       remainining bits is allocated separately and pointed to by the same integer. 
       <p>
-      The datatypes are null, record(pointer), integer, double, string (with optional language field), 
-      xml literal (with optional namespace field), uri, blob,
-      char, date, time, pointer to record.
+      The datatypes are null, record(pointer), integer, double, string, 
+      xml literal, uri, blob,  char, date, time, pointer to record. 
       <p>
       Long strings are allocated uniquely, i.e. using the same string in many fields does not
-      take up additional space: this allows for fast string equality check as well.      
+      take up additional space and allows fast string equality check.    
+      <p>      
+      A record pointer is a persistent offset of the record, usable
+      as an automatic id of the record. Pointers allow 
+      <a href="http://en.wikipedia.org/wiki/Graph_database">fast traversal of
+      complex data</a> without search.
       </div>
     </div>
     <div class="col-md-4 wblock wblock3">
@@ -193,7 +204,7 @@
       <p>
   We use a database level lock implemented via a task-fair 
   atomic <a href="http://en.wikipedia.org/wiki/Spinlock">spinlock</a> queue for concurrency control,
-  but alternative preference policies can be configured: either a simple 
+  but alternative faster and simpler preference policies can be configured: either a  
   reader-preference or a writer-preference spinlock.
   <p>
   Generally, a database level lock is characterized by very low overhead but 

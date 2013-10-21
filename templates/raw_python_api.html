@@ -1,24 +1,23 @@
-<!--?xml version="1.0" encoding="UTF-8"?-->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>WhiteDB python bindings</title><link rel="stylesheet" type="text/css" href="raw_python_api_files/docbook-xsl.css"><meta name="generator" content="DocBook XSL Stylesheets V1.78.1"></head><body><div xml:lang="en" class="article" lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="idp15795184"></a>WhiteDB python bindings</h2></div></div><hr></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#_about_this_document">1. About this document</a></span></dt><dt><span class="section"><a href="#anchor-1">2. Compilation and Installation</a></span></dt><dd><dl><dt><span class="section"><a href="#_compiling_python_bindings">2.1. Compiling Python bindings</a></span></dt><dt><span class="section"><a href="#_installation">2.2. Installation</a></span></dt><dt><span class="section"><a href="#_compatibility">2.3. Compatibility</a></span></dt></dl></dd><dt><span class="section"><a href="#anchor-2">3. wgdb.so (wgdb.pyd) module</a></span></dt><dd><dl><dt><span class="section"><a href="#_attaching_and_deleting_a_database">3.1. Attaching and deleting a database</a></span></dt><dt><span class="section"><a href="#_exception_handling">3.2. Exception handling.</a></span></dt><dt><span class="section"><a href="#_creating_and_manipulating_records">3.3. Creating and manipulating records</a></span></dt><dt><span class="section"><a href="#anchor-6">3.4. Writing and reading field contents.</a></span></dt><dt><span class="section"><a href="#_transaction_handling">3.5. Transaction handling</a></span></dt><dt><span class="section"><a href="#_date_and_time_fields">3.6. Date and time fields.</a></span></dt><dt><span class="section"><a href="#anchor-7">3.7. Queries</a></span></dt></dl></dd><dt><span class="section"><a href="#anchor-3">4. whitedb.py module (high level API)</a></span></dt><dd><dl><dt><span class="section"><a href="#_overview">4.1. Overview</a></span></dt><dt><span class="section"><a href="#_linked_records">4.2. Linked records</a></span></dt><dt><span class="section"><a href="#_transaction_support">4.3. Transaction support</a></span></dt><dt><span class="section"><a href="#anchor-4">4.4. Specifying field encoding and extended information.</a></span></dt><dt><span class="section"><a href="#_using_dates_and_times">4.5. Using dates and times.</a></span></dt><dt><span class="section"><a href="#_using_queries">4.6. Using queries.</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_about_this_document"></a>1.&nbsp;About this document</h2></div></div></div><p><a class="xref" href="#anchor-1" title="2.&nbsp;Compilation and Installation">Section&nbsp;2, “Compilation and Installation”</a> describes the compilation,
-installation and general usage of WhiteDB Python bindings.</p><p><a class="xref" href="#anchor-2" title="3.&nbsp;wgdb.so (wgdb.pyd) module">Section&nbsp;3, “wgdb.so (wgdb.pyd) module”</a>, describes the immediate low
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>WhiteDB python bindings</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.0" /></head><body><div xml:lang="en" class="article" lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="idp1380107960"></a>WhiteDB python bindings</h2></div></div><hr /></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#_about_this_document">1. About this document</a></span></dt><dt><span class="section"><a href="#anchor-1">2. Compilation and Installation</a></span></dt><dd><dl><dt><span class="section"><a href="#_compiling_python_bindings">2.1. Compiling Python bindings</a></span></dt><dt><span class="section"><a href="#_installation">2.2. Installation</a></span></dt><dt><span class="section"><a href="#_compatibility">2.3. Compatibility</a></span></dt></dl></dd><dt><span class="section"><a href="#anchor-2">3. wgdb.so (wgdb.pyd) module</a></span></dt><dd><dl><dt><span class="section"><a href="#_attaching_and_deleting_a_database">3.1. Attaching and deleting a database</a></span></dt><dt><span class="section"><a href="#_exception_handling">3.2. Exception handling.</a></span></dt><dt><span class="section"><a href="#_creating_and_manipulating_records">3.3. Creating and manipulating records</a></span></dt><dt><span class="section"><a href="#anchor-6">3.4. Writing and reading field contents.</a></span></dt><dt><span class="section"><a href="#_transaction_handling">3.5. Transaction handling</a></span></dt><dt><span class="section"><a href="#_date_and_time_fields">3.6. Date and time fields.</a></span></dt><dt><span class="section"><a href="#anchor-7">3.7. Queries</a></span></dt></dl></dd><dt><span class="section"><a href="#anchor-3">4. whitedb.py module (high level API)</a></span></dt><dd><dl><dt><span class="section"><a href="#_overview">4.1. Overview</a></span></dt><dt><span class="section"><a href="#_linked_records">4.2. Linked records</a></span></dt><dt><span class="section"><a href="#_transaction_support">4.3. Transaction support</a></span></dt><dt><span class="section"><a href="#anchor-4">4.4. Specifying field encoding and extended information.</a></span></dt><dt><span class="section"><a href="#_using_dates_and_times">4.5. Using dates and times.</a></span></dt><dt><span class="section"><a href="#_using_queries">4.6. Using queries.</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_about_this_document"></a>1. About this document</h2></div></div></div><p><a class="xref" href="#anchor-1" title="2. Compilation and Installation">Section 2, “Compilation and Installation”</a> describes the compilation,
+installation and general usage of WhiteDB Python bindings.</p><p><a class="xref" href="#anchor-2" title="3. wgdb.so (wgdb.pyd) module">Section 3, “wgdb.so (wgdb.pyd) module”</a>, describes the immediate low
 level API provided by the wgdb module. This API (in most cases) directly wraps
-functions provided by libwgdb.</p><p><a class="xref" href="#anchor-3" title="4.&nbsp;whitedb.py module (high level API)">Section&nbsp;4, “whitedb.py module (high level API)”</a> describes the DBI-style
+functions provided by libwgdb.</p><p><a class="xref" href="#anchor-3" title="4. whitedb.py module (high level API)">Section 4, “whitedb.py module (high level API)”</a> describes the DBI-style
 API, which is designed for convinience of usage and is not speed-optimized at
 the moment (start there if you just want to know how to put stuff into the
 database using Python).</p><p>The examples in this document were create using Python 2. They
 should be syntactically correct for Python 3, but can produce
 slightly different output (particularly, the <code class="literal">print</code> statement vs the
-<code class="literal">print()</code> function).</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="anchor-1"></a>2.&nbsp;Compilation and Installation</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_compiling_python_bindings"></a>2.1.&nbsp;Compiling Python bindings</h3></div></div></div><p>Python module is not compiled by default. <code class="literal">./configure --with-python</code>
+<code class="literal">print()</code> function).</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="anchor-1"></a>2. Compilation and Installation</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_compiling_python_bindings"></a>2.1. Compiling Python bindings</h3></div></div></div><p>Python module is not compiled by default. <code class="literal">./configure --with-python</code>
 enables the compilation (provided that the configure script is
 able to locate the <span class="emphasis"><em>Python.h</em></span> file in the system. If not, it is
 assumed that Python is not properly installed and WhiteDB will be
 compiled without Python bindings).</p><p>When building manually, use the separate scripts in Python directory.
 Check that the Python path in <span class="emphasis"><em>compile.sh</em></span> (<span class="emphasis"><em>compile.bat</em></span> for Windows)
-matches your system.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_installation"></a>2.2.&nbsp;Installation</h3></div></div></div><p>The high level <span class="emphasis"><em>whitedb.py</em></span> module expects to find the compiled <span class="emphasis"><em>wgdb.so</em></span>
+matches your system.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_installation"></a>2.2. Installation</h3></div></div></div><p>The high level <span class="emphasis"><em>whitedb.py</em></span> module expects to find the compiled <span class="emphasis"><em>wgdb.so</em></span>
 module in the same directory it resides in. To install the modules,
-they can be copied to Python site-packages directory manually.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_compatibility"></a>2.3.&nbsp;Compatibility</h3></div></div></div><p>Minimum version of Python required: 2.5. Other tested versions: 2.6, 2.7
-and 3.3. Note that Python 3 is supported but is not extensively tested yet.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="anchor-2"></a>3.&nbsp;wgdb.so (wgdb.pyd) module</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_attaching_and_deleting_a_database"></a>3.1.&nbsp;Attaching and deleting a database</h3></div></div></div><pre class="literallayout">FUNCTIONS
+they can be copied to Python site-packages directory manually.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_compatibility"></a>2.3. Compatibility</h3></div></div></div><p>Minimum version of Python required: 2.5. Other tested versions: 2.6, 2.7
+and 3.3. Note that Python 3 is supported but is not extensively tested yet.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="anchor-2"></a>3. wgdb.so (wgdb.pyd) module</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_attaching_and_deleting_a_database"></a>3.1. Attaching and deleting a database</h3></div></div></div><pre class="literallayout">FUNCTIONS
    attach_database(shmname='', size=0, local=0)
        Connect to a shared memory database. If the database with the
        given name does not exist, it is created. If local is non-zero,
@@ -39,14 +38,14 @@ systems.</p><p>Examples:</p><pre class="literallayout">&gt;&gt;&gt; a=wgdb.attac
 &gt;&gt;&gt; d=wgdb.attach_database(local=1)
 &gt;&gt;&gt; wgdb.detach_database(d)</pre><p><code class="literal">delete_database()</code> takes a single argument. If this is omitted, the
 default value will be used.</p><pre class="literallayout">&gt;&gt;&gt; wgdb.delete_database("1001")
-&gt;&gt;&gt; wgdb.delete_database()</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_exception_handling"></a>3.2.&nbsp;Exception handling.</h3></div></div></div><p>wgdb module defines a <code class="literal">wgdb.error</code> exception object that can be used in
+&gt;&gt;&gt; wgdb.delete_database()</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_exception_handling"></a>3.2. Exception handling.</h3></div></div></div><p>wgdb module defines a <code class="literal">wgdb.error</code> exception object that can be used in
 error handling:</p><pre class="literallayout">&gt;&gt;&gt; try:
 ...  a=wgdb.attach_database()
 ... except wgdb.error, msg:
 ...  print ('wgdb error')
 ... except:
 ...  print ('other error')
-...</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_creating_and_manipulating_records"></a>3.3.&nbsp;Creating and manipulating records</h3></div></div></div><pre class="literallayout">FUNCTIONS
+...</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_creating_and_manipulating_records"></a>3.3. Creating and manipulating records</h3></div></div></div><pre class="literallayout">FUNCTIONS
    create_record(db, length)
        Create a record with given length.</pre><pre class="literallayout">create_raw_record(db, length)
     Create a record without indexing the fields.</pre><pre class="literallayout">delete_record(db, rec)
@@ -77,7 +76,7 @@ record.</p><p>Examples:</p><pre class="literallayout">&gt;&gt;&gt; d=wgdb.attach
 &gt;&gt;&gt; rec=wgdb.get_next_record(d,rec)
 Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-wgdb.error: Failed to fetch a record.</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="anchor-6"></a>3.4.&nbsp;Writing and reading field contents.</h3></div></div></div><p>wgdb module handles data type conversion between Python and WhiteDB. Field
+wgdb.error: Failed to fetch a record.</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="anchor-6"></a>3.4. Writing and reading field contents.</h3></div></div></div><p>wgdb module handles data type conversion between Python and WhiteDB. Field
 contents will be converted to Python object when reading data and again encoded
 into field data when writing to database.</p><p>Currently supported types include: None, int, float, string (regular 0-terminated
 string. Raw binary data is not allowed), record.</p><p>Setting a field to None is equivalent to clearing the field data. Similarly,
@@ -145,7 +144,7 @@ meaning depending on the type selected. For other types it is ignored.</p><p>Exa
 &gt;&gt;&gt; wgdb.set_field(d,tmp,0,"H", wgdb.FIXPOINTTYPE)
 Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-TypeError: Requested encoding is not supported.</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_transaction_handling"></a>3.5.&nbsp;Transaction handling</h3></div></div></div><p>Logical level of transaction handling is provided by the wgdb module. These
+TypeError: Requested encoding is not supported.</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_transaction_handling"></a>3.5. Transaction handling</h3></div></div></div><p>Logical level of transaction handling is provided by the wgdb module. These
 functions should guarantee safe concurrent usage, however the method of
 providing that concurrency is up to the database engine (in simplest case,
 the method is a database level lock).</p><pre class="literallayout">FUNCTIONS
@@ -167,7 +166,7 @@ itself.</p><p>If timeouts are enabled, <code class="literal">start_read()</code>
 &gt;&gt;&gt; l=wgdb.start_read(d)
 &gt;&gt;&gt; wgdb.get_first_record(d)
 &lt;WhiteDB record at b6981e00&gt;
-&gt;&gt;&gt; wgdb.end_read(d,l)</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_date_and_time_fields"></a>3.6.&nbsp;Date and time fields.</h3></div></div></div><p>WhiteDB uses a compact encoding for date and time values, which is translated
+&gt;&gt;&gt; wgdb.end_read(d,l)</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_date_and_time_fields"></a>3.6. Date and time fields.</h3></div></div></div><p>WhiteDB uses a compact encoding for date and time values, which is translated
 to and from Python datetime representation on the wgdb module level. See
 Python <code class="literal">datetime</code> module documentation for more information on how to construct
 and use date and time objects.</p><p>Note that tzinfo field of the time object and general timezone awareness
@@ -199,10 +198,10 @@ datetime.time(12, 5)
 &gt;&gt;&gt; x.second
 0
 &gt;&gt;&gt; x.microsecond
-0</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="anchor-7"></a>3.7.&nbsp;Queries</h3></div></div></div><p>wgdb module provides a direct wrapper for <code class="literal">wg_make_query()</code> and <code class="literal">wg_fetch()</code>
+0</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="anchor-7"></a>3.7. Queries</h3></div></div></div><p>wgdb module provides a direct wrapper for <code class="literal">wg_make_query()</code> and <code class="literal">wg_fetch()</code>
 functions. The query building function uses a similar convention for handling
 wgdb data types as the <span class="emphasis"><em>whitedb.py</em></span> module (see
-<a class="xref" href="#anchor-4" title="4.4.&nbsp;Specifying field encoding and extended information.">Section&nbsp;4.4, “Specifying field encoding and extended information.”</a>) - data values in query
+<a class="xref" href="#anchor-4" title="4.4. Specifying field encoding and extended information.">Section 4.4, “Specifying field encoding and extended information.”</a>) - data values in query
 parameters may be given as immediate Python values or as tuples that add the
 field type and extra string information.</p><pre class="literallayout">FUNCTIONS
    fetch(db, query)
@@ -252,7 +251,7 @@ provided, the query will return all the rows in the database.</p><p>Example:</p>
 Traceback (most recent call last):
   File "&lt;stdin&gt;", line 1, in &lt;module&gt;
 wgdb.error: Failed to fetch a record.
-&gt;&gt;&gt;</pre></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="anchor-3"></a>4.&nbsp;whitedb.py module (high level API)</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_overview"></a>4.1.&nbsp;Overview</h3></div></div></div><p>High level access to database is provided by <span class="emphasis"><em>whitedb.py</em></span> module. This
+&gt;&gt;&gt;</pre></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="anchor-3"></a>4. whitedb.py module (high level API)</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_overview"></a>4.1. Overview</h3></div></div></div><p>High level access to database is provided by <span class="emphasis"><em>whitedb.py</em></span> module. This
 module requires the low level <span class="emphasis"><em>wgdb.so</em></span> (<span class="emphasis"><em>wgdb.pyd</em></span> on Windows) module.</p><pre class="literallayout">CLASSES
    Connection
    Cursor
@@ -482,7 +481,7 @@ Traceback (most recent call last):
     self.start_read()
   File "whitedb.py", line 108, in start_read
     self._lock_id = wgdb.start_read(self._db)
-TypeError: argument 1 must be wgdb.Database, not None</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_linked_records"></a>4.2.&nbsp;Linked records</h3></div></div></div><p>WhiteDB record fields may contain references to other records. In high
+TypeError: argument 1 must be wgdb.Database, not None</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_linked_records"></a>4.2. Linked records</h3></div></div></div><p>WhiteDB record fields may contain references to other records. In high
 level API, these records are represented as instances of <code class="literal">whitedb.Record</code>
 class. Note that it is not useful to create such instances directly. Instances
 of <code class="literal">Record</code> class are always returned by WhiteDB operations (creating new
@@ -508,15 +507,15 @@ the records that refer to it:</p><pre class="literallayout">&gt;&gt;&gt; linked=
 [(1, 2, 3, 4, 5), (1, 2, 3, 4, 5)]
 &gt;&gt;&gt; rec.set_field(3, 99)
 &gt;&gt;&gt; list(map(lambda x: tuple(x[1]), linked))
-[(1, 2, 3, 99, 5), (1, 2, 3, 99, 5)]</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_transaction_support"></a>4.3.&nbsp;Transaction support</h3></div></div></div><p>Transactions are handled internally by the whitedb module. By default the
+[(1, 2, 3, 99, 5), (1, 2, 3, 99, 5)]</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_transaction_support"></a>4.3. Transaction support</h3></div></div></div><p>Transactions are handled internally by the whitedb module. By default the
 concurrency support is turned on and each database read or write is treated
 as a separate transaction. The user can turn this behaviour on and off (when there
 is a single database user, there will be a small performance gain with locking
 turned off).</p><p>Turning locking (or transactional) mode off:</p><pre class="literallayout">&gt;&gt;&gt; d=whitedb.connect()
-&gt;&gt;&gt; d.set_locking(0)</pre><p>Turning it back on:</p><pre class="literallayout">&gt;&gt;&gt; d.set_locking(1)</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="anchor-4"></a>4.4.&nbsp;Specifying field encoding and extended information.</h3></div></div></div><p>The user can explicitly state which encoding should be used when writing data
+&gt;&gt;&gt; d.set_locking(0)</pre><p>Turning it back on:</p><pre class="literallayout">&gt;&gt;&gt; d.set_locking(1)</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="anchor-4"></a>4.4. Specifying field encoding and extended information.</h3></div></div></div><p>The user can explicitly state which encoding should be used when writing data
 to the database. Examples of encodings where this is useful are 1-character
 strings and small fixed-point numbers. When encoded as such they consume less
-storage space in database and may speed up access as well.</p><p>Allowed types are listed under the <a class="xref" href="#anchor-6" title="3.4.&nbsp;Writing and reading field contents.">Section&nbsp;3.4, “Writing and reading field contents.”</a>.</p><p>Example:</p><pre class="literallayout">&gt;&gt;&gt; import whitedb
+storage space in database and may speed up access as well.</p><p>Allowed types are listed under the <a class="xref" href="#anchor-6" title="3.4. Writing and reading field contents.">Section 3.4, “Writing and reading field contents.”</a>.</p><p>Example:</p><pre class="literallayout">&gt;&gt;&gt; import whitedb
 &gt;&gt;&gt; d=whitedb.connect()
 &gt;&gt;&gt; r=d.insert((None,))
 &gt;&gt;&gt; r.set_field(0,"Hello")
@@ -569,7 +568,7 @@ wgdb module select the default encoding.</p><p>Example:</p><pre class="literalla
 &gt;&gt;&gt; import math
 &gt;&gt;&gt; r.update((math.pi,(math.pi,whitedb.wgdb.FIXPOINTTYPE)))
 &gt;&gt;&gt; tuple(r)
-(3.1415926535897931, 3.1415999999999999)</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_using_dates_and_times"></a>4.5.&nbsp;Using dates and times.</h3></div></div></div><p>Date and time support is implemented using the datetime module included
+(3.1415926535897931, 3.1415999999999999)</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_using_dates_and_times"></a>4.5. Using dates and times.</h3></div></div></div><p>Date and time support is implemented using the datetime module included
 with the standard Python distribution. Storing a <code class="literal">datetime.date</code> object
 in the database creates a WhiteDB date type field, similarly a <code class="literal">datetime.time</code>
 object is stored as a time field. When reading the database, low-level
@@ -593,7 +592,7 @@ datetime.datetime(2010, 3, 31, 12, 59, 0, 330000)
 &gt;&gt;&gt; x.strftime("%d.%m.%Y")
 '31.03.2010'
 &gt;&gt;&gt; x.ctime()
-'Wed Mar 31 12:59:00 2010'</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_using_queries"></a>4.6.&nbsp;Using queries.</h3></div></div></div><p>The <code class="literal">execute()</code> method of <code class="literal">Cursor</code> class implements non-DBI, WhiteDB-specific
+'Wed Mar 31 12:59:00 2010'</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_using_queries"></a>4.6. Using queries.</h3></div></div></div><p>The <code class="literal">execute()</code> method of <code class="literal">Cursor</code> class implements non-DBI, WhiteDB-specific
 extensions. These can be used to query data that matches specific conditions.
 SQL support is currently not implemented in libwgdb and is non-functional
 in the whitedb Python module.</p><p>Optional keyword parameters to <code class="literal">execute()</code>:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
@@ -607,8 +606,8 @@ matchrec - may be either a sequence of values or a whitedb.Record instance
 </li><li class="listitem">
 arglist - sequence of 3-tuples (column, condition, value)
 </li></ul></div><p>Values are either immediate Python values or tuples with extended type
-information (see <a class="xref" href="#anchor-4" title="4.4.&nbsp;Specifying field encoding and extended information.">Section&nbsp;4.4, “Specifying field encoding and extended information.”</a>). For
-the possible conditions, see the <a class="xref" href="#anchor-7" title="3.7.&nbsp;Queries">Section&nbsp;3.7, “Queries”</a>.</p><p><code class="literal">arglist</code> and <code class="literal">matchrec</code> parameters may be present simultaneously. Also,
+information (see <a class="xref" href="#anchor-4" title="4.4. Specifying field encoding and extended information.">Section 4.4, “Specifying field encoding and extended information.”</a>). For
+the possible conditions, see the <a class="xref" href="#anchor-7" title="3.7. Queries">Section 3.7, “Queries”</a>.</p><p><code class="literal">arglist</code> and <code class="literal">matchrec</code> parameters may be present simultaneously. Also,
 <code class="literal">arglist</code> parameter may contain multiple conditions for one column. If neither
 parameter is present, the result set will include all the rows in the
 database unconditionally.</p><p>After calling <code class="literal">execute()</code>, the attribute <code class="literal">rowcount</code> will indicate the number
@@ -645,5 +644,4 @@ represented as (varnum, VARTYPE) tuples in Python:</p><pre class="literallayout"
 &lt;whitedb.Record instance at 0x9b7ebec&gt;
 &gt;&gt;&gt; c.execute(matchrec=var_rec)
 &gt;&gt;&gt; list(map(tuple, c.fetchall()))
-[(2, 3, 4), (2, 3, 4, 5), ((0, 14), (0, 14), 4)]</pre></div></div></div>
-</body></html>
+[(2, 3, 4), (2, 3, 4, 5), ((0, 14), (0, 14), 4)]</pre></div></div></div></body></html>

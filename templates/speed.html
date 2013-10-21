@@ -84,7 +84,9 @@ following tests do not require and do not use locking.
 <p>
 <h2 class="title">2. How to run the tests</h2>
 <p>
-The tests are available as small standalone source files speed1.c, speed2.c etc. Compile and run them yourself by
+The tests are available as small standalone source files speed1.c, speed2.c etc in 
+<code class="literal">Examples/speed</code>. 
+Compile and run them yourself by
 <pre class="literallayout">
 gcc speed1.c -o speed1 -O2 -lwgdb
 time ./speed1
@@ -109,7 +111,7 @@ Below we will always present the wall-clock time as reported by <code class="lit
 
 <h2 class="title">3. Creating and deleting a database</h2>
 <p>
-<a href="doc/speed1.c">speed1.c</a> creates a new 1 gigabyte database and then immediately deletes the 
+<a href="code/speed1.c">speed1.c</a> creates a new 1 gigabyte database and then immediately deletes the 
 database, repeating the whole process 1000 times. 
 <p>
 The time spent is ca 10 seconds, meaning that you can create and then delete a 
@@ -132,7 +134,7 @@ completely fill it with increasing 4-byte integers and then deallocate.
 <h2 class="title">4. Inserting and deleting records</h2>
 <p>
 
-<a href="doc/speed2.c">speed2.c</a> creates a new 1 gigabyte database and then creates 10 million records
+<a href="code/speed2.c">speed2.c</a> creates a new 1 gigabyte database and then creates 10 million records
 of length 5, with record values initialized to NULL.
 <p>
 The time spent is ca 0.6 seconds, meaning that you can create one 5-field record in ca 60 nanoseconds. 
@@ -141,13 +143,13 @@ In comparison, on the same system it takes ca 0.08 seconds to allocate 1 GB with
 just sequentially write 50 million integer 0 values: the same number of integers as the NULL-initialized
 fields in the database.
 <p>
-<a href="doc/speed3.c">speed3.c</a> performs a very similar task to speed2.c: it creates a new 1 gigabyte
+<a href="code/speed3.c">speed3.c</a> performs a very similar task to speed2.c: it creates a new 1 gigabyte
 database and then creates 10 million records of length 5, this time <b>not</b> initializing the 
 field values.
 <p>
 The time spent by this faster version is ca 0.349 seconds.
 <p>
-<a href="doc/speed4.c">speed4.c</a>, again, creates a new 1 gigabyte database and then creates 10 million records
+<a href="code/speed4.c">speed4.c</a>, again, creates a new 1 gigabyte database and then creates 10 million records
 of length 5, with record values initialized to NULL, this time deleting each newly created record immediately
 after creation.
 <p>
@@ -162,7 +164,7 @@ In real life you insert a record to fill it with real values, not just NULL.
 <p>
 <h3 class="title">Integer values</h1>
 <p>
-<a href="doc/speed5.c">speed5.c</a> creates a new 1 gigabyte database, then creates 10 million records
+<a href="code/speed5.c">speed5.c</a> creates a new 1 gigabyte database, then creates 10 million records
 of length 5, with field values then set to integers of increasing value. 
 <p>
 Observe that integers
@@ -191,7 +193,8 @@ The next step is to experiment with strings. WhiteDB uses two different encoding
 strings:
 <ul>
 <li>Strings shorter than 32 bytes are always separately allocated as 32-byte chunks, with the
-field containing a pointer to the string. 
+field containing a pointer to the string. BTW, the 32-byte limit can be modified by changing the 
+SHORTSTR_SIZE macro in dballoc.h
 <li>Longer strings (and also short strings with an added language/namespace attribute) are 
 allocated uniquely: a single copy is kept of each string. This saves space and allows very
 fast string equality comparison: just pointers have to be compared. However, encoding a long string
@@ -199,7 +202,7 @@ involves computing a hash of a string, looking it up from the hash table and ins
 hash chain, which takes some time.
 </ul>
 <p>
-<a href="doc/speed6.c">speed6.c</a> creates a new 1 gigabyte database, then creates 1 million records
+<a href="code/speed6.c">speed6.c</a> creates a new 1 gigabyte database, then creates 1 million records
 of length 5, with field values then set to a 30-byte string. NB! We have decreased the
 number of records from 10 million in previous tests to 1 million for a short string: otherwise the
 strings won't fit into our meager 1 GB database.
@@ -208,7 +211,7 @@ with the 10 million records of the integer test, making the string-record insert
 <p>
 Testing with a 10-byte string instead of a 30-byte string has a very small effect.
 <p>
-<a href="doc/speed7.c">speed7.c</a> performs the same operations as the previous speed6, but this time
+<a href="code/speed7.c">speed7.c</a> performs the same operations as the previous speed6, but this time
 using a 100-byte string as a field value. The string is kept uniquely, essentially just one copy
 for the whole database.
 <p>
@@ -218,7 +221,7 @@ if we'd save a different string each time.
 <p>
 <h3 class="title">Double values</h1>
 <p>
-<a href="doc/speed8.c">speed8.c</a> performs the same operations as the last string tests, but using 
+<a href="code/speed8.c">speed8.c</a> performs the same operations as the last string tests, but using 
 a double value. Again, just one million records of five fields are created. All of these are allocated
 as 8-byte values. The field is assigned a pointer to the allocated value.
 <p>
@@ -227,23 +230,23 @@ When compared to the integer tests of 10 million records, it would correspond to
 a bit slower than the integer test.
 
 <p>
-<h2 class="title">6. Scanning and queries</h2>
+<h2 class="title">6. Scanning, queries and pointers</h2>
 <p>
 
 The first test <i>scans</i> the database, i.e. goes through all the records sequentially, looking for
 specific values in a given field. This is what happens when you search through a non-indexed field.
-The second test will query an indexed field and demonstrate, as expected, real speed.
+The second test will query an indexed field and demonstrate, as expected, real speed. 
 
 <p>
 <h3 class="title">Scanning records over a non-indexed value</h3>
 <p>
 
 <p>
-<a href="doc/speed10.c">speed10.c</a> builds 10 million records of five fields, with
+<a href="code/speed10.c">speed10.c</a> builds 10 million records of five fields, with
 the value of field 3 assigned an integer stemming from the last five digits of the record number, 
 thus storing each number between 0...100 000 to 100 different records.
 <p>
-<a href="doc/speed11.c">speed11.c</a> takes the previously built database and scans through
+<a href="code/speed11.c">speed11.c</a> takes the previously built database and scans through
 all the records, checking whether field 3 contains the value 123. Matching records are counted: there are
 100 of these.
 <p>
@@ -254,12 +257,12 @@ In the other words, you can expect to scan through 50 million records in a secon
 <h3 class="title">Querying records over an indexed value</h3>
 <p>
 
-<a href="doc/speed12.c">speed12.c</a> creates the T-tree index for the (integer) field 3 in the 
+<a href="code/speed12.c">speed12.c</a> creates the T-tree index for the (integer) field 3 in the 
 previously created database of 10 million records with 100000 different values in the field.
 <p>
 The indexing test takes 6.5 seconds.
 <p>
-<a href="doc/speed13.c">speed13.c</a> performs a query over the previously indexed field 3,
+<a href="code/speed13.c">speed13.c</a> performs a query over the previously indexed field 3,
 again looking for the value 123 and counting all the matching records (exactly 100). In order
 to make the time measureable, we repeat the whole query building / searching / fetching / deallocating
 process one million times.
@@ -269,6 +272,30 @@ per second. For smaller databases the query time decreases logarithmically: runn
 a 1000-record database takes 1.1 seconds, i.e. ca one million queries per second is the maximum
 speed you could get.
 
+<p>
+<h3 class="title">Record pointers: the foundation of a graph database</h3>
+<p>
+
+Searching for a related record through an index using the record id (the standard SQL way) is
+neither the fastest nor the simplest way of going through complex data structures.
+<p>
+It is much faster and easier to store direct pointers to records.
+<p>
+<a href="code/speed16.c">speed15.c</a> builds a database of 10 million records and stores a pointer
+to the previously created record to the field 3 of each record. Essentially, all the 10 million records will
+form a long chain from the last record back to the first. Additionally, we store a pointer
+to the last record into field 2 of the very first record, to directly access the last record later.
+<!-- Note that the standard 
+<code class="literal">get_next_record</code> ...
+-->
+<p>
+The building test takes 0.66 seconds.
+<p>
+<a href="code/speed16.c">speed16.c</a> traverses through the whole chain of backward pointers and counts the
+10 million records in a list.
+<p>
+The traversal test takes 0.15 seconds: in other words, you 
+can traverse almost 100 million records in a linked list in a second.
 
 <p>
 
