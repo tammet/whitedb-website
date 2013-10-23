@@ -1,0 +1,1 @@
+# ASCIIDOC_XSL=/usr/share/asciidoc/docbook-xsl/ ./gendoc.sh

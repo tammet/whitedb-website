@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head itemscope>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="description" content="A fast lightweight NoSQL shared memory database library written in C">
+<meta name="author" content="Tanel Tammet, Priit Järv">
+<meta name="keywords" content="database, library, main memory, shared memory, speed, NoSQL" /> 
+
+<meta itemprop="itemtype" content="http://schema.org/SoftwareApplication" />
+<meta itemprop="name" content="WhiteDB" />
+<meta itemprop="description" content="WhiteDB is a fast, lightweight NoSQL shared memory database library written in C." />
+<meta itemprop="url" content="http://www.whitedb.org" />
+<meta itemprop="operatingSystems" content="Linux, Windows" />
+<meta itemprop="softwareApplicationCategory" content="DeveloperApplication" />
+
+<meta property="og:title" content="WhiteDB"/> 
+<meta property="og:url" content="http://www.whitedb.org"/> 
+<meta property="og:site_name" content="WhiteDB"/> 
+<meta property="og:type" content="website"/>
+<meta property="og:description" content="A fast lightweight NoSQL shared memory database library written in C."/>
+<meta property="fb:admins" content="tanel.tammet"/>
+
+<link rel="shortcut icon" href="img/logo2.png">
+
+<title>Whitedb</title>
+<!--
+<link href='http://fonts.googleapis.com/css?family=Roboto:300' rel='stylesheet' type='text/css'>
+-->
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<!-- Custom styles for this template -->
+<link href="css/wdb.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <script src="js/respond.min.js"></script>
+<![endif]-->
+<!--  
+<style type="text/css"></style>
+-->
+<!-- <script src="js/jquery.js"></script> -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+
+function setleftmenu() {
+  var d;
+  d=$("#maincontainer").offset();
+  if (d && d.left && d.left>10) {
+    $("#sidemenu").css("left",""+d.left-300);    
+  }    
+}
+
+function shortenmenu(){
+ $('#sidemenu a').each(function(){
+    $(this).text($(this).text().substring(2));
+ });
+}
+
+/*
+function onscroll() {
+  var d2;
+  d2=window.pageYOffset;
+  //console.log(d2);
+  if (!d2) $("#sidemenu").css("top",""+84);
+  else {
+    if (d2>74) {
+      $("#sidemenu").css("top","10");
+    } else {
+      $("#sidemenu").css("top",""+84-d2);
+    }  
+  }      
+}
+*/
+
+$(document).ready(function(){  
+  shortenmenu();
+  setleftmenu();
+	$("dt").click(function(){
+		if(!$(this).hasClass("xopen")) {
+      $(this).addClass("xopen");
+      $(this).next().find("dl").slideDown(400);
+			//$(this).next().find("dl").css("display","block");      
+		} else {
+      $(this).removeClass("xopen");
+      $(this).next().find("dl").slideUp(400);
+      //$(this).next().find("dl").css("display","none");      
+    }        
+	});
+  $(window).resize(function() {
+    setleftmenu();
+  });
+})
+
+</script>
+</head>
+
+<body>
+
+<div id="fb-root"></div>
+
+<div class="navbar navbar-inverse navbar-static-top" style="background-color: #333333;">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><img class="logo" src="img/logo1.png"/>WhiteDB</a>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dummy"><a href="index.html">Home</a></li>        
+        <li class="dummy"><a href="tutorial.html">Tutorial</a></li>
+        <li class="dummy"><a href="speed.html">Speed</a></li>
+        <!-- <li class="dummy"><a href="scenarios.html">Scenarios</a></li> -->
+        <li class="dummy"><a href="c_api.html">C API</a></li>        
+        <li class="dummy"><a href="python_api.html">Python</a></li> 
+        <li class="dummy"><a href="tools.html">Tools</a></li>
+        <li class="dummy"><a href="download.html">Download</a></li>
+        <li class="dummy"><a href="install.html">Install</a></li>
+        <li class="dummy"><a href="licence.html">Licence</a></li>
+        <li class="dummy"><a href="contact.html">Contact</a></li>        
+      </ul>
+    </div><!--/.navbar-collapse -->
+  </div>
+</div>
+
+<!-- content after titlebar -->
+
+<!-- jumbotron for a primary message  -->
+
+<div class="jumbotron" id="jumbotron">
+  <div class="container" style="text-align: left">
+    <h1 class="jumbotron_title">Tools</h1>
+    <p class="jumbotron_caption">For command line and json
+    </p>
+  </div>  
+</div>
+
+<!-- sidemenu for large screens -->
+
+<div id="sidemenu" class="hidden-print sidemenu" role="complementary">
+<div class="isidemenu">  
+<h3 class="menutitle">Contents</h3>
+<dl class="toc"><dt><span class="section"><a href="#_wgdb_general_database_management">1. wgdb - general database management</a></span></dt><dt><span class="section"><a href="#_indextool_index_management">2. indextool - index management</a></span></dt><dt><span class="section"><a href="#_dserve_simple_rest_queries_with_json">3. dserve - simple REST queries with json</a></span></dt><dd><dl><dt><span class="section"><a href="#_query_by_field_values">3.1. Query by field values</a></span></dt><dt><span class="section"><a href="#_query_by_record_id_s">3.2. Query by record id-s</a></span></dt><dt><span class="section"><a href="#_good_to_know">3.3. Good to know</a></span></dt></dl></dd></dl>
+</div>
+</div>
+
+<!-- main content -->
+
+<div class="container" id="maincontainer">
+  <div class="row">
+     <div class="col-md-12 wblock wblock1">
+      <div class="wiblock wiblock_full">      
+<div class="toc">
+<dl class="toc"><dt><span class="section"><a href="#_wgdb_general_database_management">1. wgdb - general database management</a></span></dt><dt><span class="section"><a href="#_indextool_index_management">2. indextool - index management</a></span></dt><dt><span class="section"><a href="#_dserve_simple_rest_queries_with_json">3. dserve - simple REST queries with json</a></span></dt><dd><dl><dt><span class="section"><a href="#_query_by_field_values">3.1. Query by field values</a></span></dt><dt><span class="section"><a href="#_query_by_record_id_s">3.2. Query by record id-s</a></span></dt><dt><span class="section"><a href="#_good_to_know">3.3. Good to know</a></span></dt></dl></dd></dl>
+</div> <!-- inner toc end -->
+<div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_wgdb_general_database_management"></a>1. wgdb - general database management</h2></div></div></div><p>This is a simple command-line utility that allows creating and freeing
+a database, dump, import, run some tests and more.</p><p>Usage:</p><pre class="literallayout">wgdb [shmname] &lt;command&gt; [command arguments]</pre><p>The shared memory name identifies the database to use and is an arbitrary
+numeric value. If it is omitted, the default ("1000") will be used.</p><p>Commands commonly available:</p><pre class="literallayout">help (or "-h") - display this text.
+version (or "-v") - display libwgdb version.
+free - free shared memory.
+export &lt;filename&gt; - write memory dump to disk.
+import &lt;filename&gt; - read memory dump from disk. Overwrites existing memory contents.
+exportcsv &lt;filename&gt; - export data to a CSV file.
+importcsv &lt;filename&gt; - import data from a CSV file.
+replay &lt;filename&gt; - replay a journal file.
+test - run quick database tests.
+fulltest - run in-depth database tests.
+header - print header data.
+fill &lt;nr of rows&gt; [asc | desc | mix] - fill db with integer data.
+add &lt;value1&gt; .. - store data row (only int or str recognized)
+select &lt;number of rows&gt; [start from] - print db contents.
+query &lt;col&gt; "&lt;cond&gt;" &lt;value&gt; .. - basic query.
+del &lt;col&gt; "&lt;cond&gt;" &lt;value&gt; .. - like query. Matching rows are deleted from database.
+server [size b] - provide persistent shared memory for other processes (Windows).
+create [size b] - create empty db of given size (non-Windows).</pre></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_indextool_index_management"></a>2. indextool - index management</h2></div></div></div><p><code class="literal">indextool</code> is for listing and managing database indexes. It takes the shared
+memory name as an argument (there is no default). The <code class="literal">logtree</code> and <code class="literal">dumphash</code>
+commands are for debugging and may produce a lot of output.</p><pre class="literallayout">indextool [shmname] createindex &lt;column&gt; - create ttree index
+indextool [shmname] createhash &lt;columns&gt; - create hash index (JSON support)
+indextool [shmname] dropindex &lt;index id&gt; - delete ttree index
+indextool [shmname] list - list all indexes in database
+indextool [shmname] logtree &lt;index id&gt; [filename] - log tree
+indextool [shmname] dumphash &lt;index id&gt; - print hash table</pre></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_dserve_simple_rest_queries_with_json"></a>3. dserve - simple REST queries with json</h2></div></div></div><p>This is a simple REST service tool taking a query described with cgi parameters
+and printing json or csv output.</p><p><code class="literal">dserve</code> is useful both as a tool and as an example/template for making your own
+tools for WhiteDB data handling. <code class="literal">dserve</code> is not compiled by default.
+Find it under the Examples folder as dserve.c and compile yourself by doing:</p><pre class="literallayout">gcc dserve.c -c dserve -O2 -lwgdb</pre><p>Copy the resulting executable under the cgi folder of the Apache server.</p><p>You can use <code class="literal">dserve</code> as a cgi program taking a few GET parameters like this</p><pre class="literallayout">http://myserver.com/cgi-bin/dserve?op=search&amp;from=0&amp;count=5</pre><p>or as a command line program: on the command line simply pass the
+urlencoded query string as a single argument, for example</p><pre class="literallayout">dserve 'op=search&amp;from=0&amp;count=5'</pre><p>Observe that dserve does not facilitate adding or updating records in the
+database. We may add such a cgi utility in the future, but anyway, it is
+a good idea to write your own utilities exactly suiting your own needs.</p><p>Most of the dserve parameters are optional, i.e. have sensible defaults. Limits,
+error messages etc are all configurable by changing the macro definitions at
+the beginning of the C source.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_query_by_field_values"></a>3.1. Query by field values</h3></div></div></div><p>You have to indicate the field numbers and the values
+to compare the contents of these fields with.
+The whole set of cgi parameters is as follows:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+db : numeric database name. Default 1000.
+</li><li class="listitem">
+op : either <code class="literal">search</code> or <code class="literal">recids</code>. Here we assume <code class="literal">search</code>,
+    will cover <code class="literal">recids</code> later.
+</li><li class="listitem">
+field : field number (0,1,2, etc) to check against the compared value.
+</li><li class="listitem">
+value : value to check the field contents against.
+    Examples: value=32, value=sometext.
+</li><li class="listitem">
+type : datatype of the value: null, int, double, str, char or record.
+    Guessed from the value by default.
+</li><li class="listitem">
+compare : equal, not_equal, lessthan, greater, ltequal or gtequal.
+    Default <code class="literal">equal</code>.
+</li><li class="listitem">
+from : skip initial matching records, start from the result nr given here.
+    Default 0.
+</li><li class="listitem">
+count : max number of matching records output. Default 10000.
+</li><li class="listitem">
+depth : max depth of nested trees of records. Default 100, hard limit 10000.
+    Set to 0 for hiding all sublists.
+    Modify the macro MAX_DEPTH_HARD to change the hard limit.
+</li><li class="listitem">
+format : either <code class="literal">json</code> or <code class="literal">csv</code>. Default <code class="literal">json</code>.
+</li><li class="listitem">
+escape : escaping special characters in json strings,
+    either <code class="literal">no</code> (only replace " with \") , <code class="literal">url</code> (urlencode %, " and all
+    non-ascii characters to be completely ascii-safe) or <code class="literal">json</code>
+    (not ascii-safe: replace only the minimal set indicated in the rfc).
+    Default <code class="literal">json</code>. NB! this parameter has no effect for csv,
+    where only " gets replaced with "".
+</li><li class="listitem">
+showid : <code class="literal">yes</code> or <code class="literal">no</code>, if <code class="literal">yes</code>, print the record offset (automatic id) as the
+    first element of each record, moving all the other fields one position to the right.
+    Default <code class="literal">no</code>.
+</li></ul></div><p>All the input values are assumed to be urlencoded.</p><p>The json output is a list of matching records. Each record is also presented as a list.
+The list elements are integers, doubles, strings or records (again represented as lists)
+pointed to from the field.  Null is printed as an empty list [].</p><p>All the other datatypes in WhiteDB are converted to strings in a mostly
+intuitive manner. Blobs are url-encoded. For csv and too deep json branches the full internal
+record is represented by its offset (encoded pointer, i.e. automatic id).</p><p>Notice that for a graph database the json output can be a complex tree of records. Cycles are
+possible, but can be inhibited by the depth parameter.</p><p>Importantly, you can give several sets of field/value/compare/count parameters to perform a
+complex and-query. Example:</p><pre class="literallayout">dserve 'op=search&amp;field=1&amp;value=100&amp;type=int&amp;compare=lessthan&amp;field=2&amp;value=10.3&amp;type=double&amp;compare=greater'</pre><p>In case you use several fields in the query, you have to fill the otherwise optional type
+and compare parameters for all the fields indicated. BTW, it is OK to put the same field
+into several comparisons.</p><p>You can also have no fields in the query at all. In this case the full database will be traversed
+and printed according to the parameters given.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_query_by_record_id_s"></a>3.2. Query by record id-s</h3></div></div></div><p>The second way to query is to simply indicate a list of record id-s (offsets: encoded record
+pointers) like this:</p><pre class="literallayout">dserve 'op=recids&amp;recids=12000,10236,22458'</pre><p>You can learn the record id-s by using the showid=yes parameter described before.</p><p>The database selection parameter <code class="literal">db</code> and the generic formatting parameters
+<code class="literal">depth</code>,<code class="literal">format</code>,<code class="literal">escape</code> and <code class="literal">showid</code> function exactly as described above.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_good_to_know"></a>3.3. Good to know</h3></div></div></div><p>Things to note and useful code examples in dserve:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+does not require additional libraries except wgdb
+</li><li class="listitem">
+uses readlocks, does not use writelocks
+</li><li class="listitem">
+cgi parameter parsing
+</li><li class="listitem">
+various printing routines for WhiteDB values
+</li><li class="listitem">
+dynamic memory handling while printing
+</li><li class="listitem">
+error and timeout handling with signals
+</li></ul></div></div></div></div>
+      </div>
+    </div>        
+  </div>
+</div>  
+
+<!-- footer -->
+
+<div class="ofooter">  
+ <div class="col-md-12 container ifooter">
+  <div id="team">
+    <a href="contact.html" style="color: #666666; font-family: 'Roboto'; font-size: 16px;">WhiteDB team 2013</a>
+  </div>    
+  <p> 
+  <div id="gplusone">
+    <div class="g-plusone" data-annotation="none" data-size="large" data-expandTo="right"
+        data-href="http://www.whitedb.org">
+    </div>
+  </div>
+  <p>
+  <div id="twitter">
+    <div>
+    <a href="https://twitter.com/share" class="twitter-share-button" 
+         data-url="http://www.whitedb.org" data-hashtags="whitedb"
+         data-text="a fast database library in shared memory">Tweet</a>
+    </div>
+  </div>
+  <div id="facebook">
+    <div class="fb-like" data-href="http://www.whitedb.org" 
+        data-colorscheme="light" 
+        data-layout="box-count" data-action="like" 
+        data-show-faces="true" data-send="true">
+    </div>
+  </div>
+  
+  </div>  
+</div> 
+
+<!-- at-end-scripts -->
+
+<!-- Bootstrap core JavaScript -->
+
+<script src="js/bootstrap.min.js"></script>
+
+<!-- social scripts -->
+
+<script>
+// facebook
+
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=168856549986981";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+// google+ 
+
+(function() {
+   var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+   po.src = 'https://apis.google.com/js/client:plusone.js?onload=gplus_render';
+   //po.src = 'https://apis.google.com/js/plusone.js?';
+   var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+ })();
+
+// twitter 
+
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+  if(!d.getElementById(id)){js=d.createElement(s);js.id=id;
+  js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);
+  }}(document, 'script', 'twitter-wjs');
+    
+// google analytics
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-44786402-1', 'whitedb.org');
+  ga('send', 'pageview');
+
+</script>  
+  
+</body>
+</html>
