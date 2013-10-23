@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>WhiteDB command line utilities</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.0" /></head><body><div xml:lang="en" class="article" lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="idp1391884720"></a>WhiteDB command line utilities</h2></div></div><hr /></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#_wgdb_general_database_management">1. wgdb - general database management</a></span></dt><dt><span class="section"><a href="#_indextool_index_management">2. indextool - index management</a></span></dt></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_wgdb_general_database_management"></a>1. wgdb - general database management</h2></div></div></div><p>This is a simple command-line utility that allows creating and freeing
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>WhiteDB command line utilities</title><link rel="stylesheet" type="text/css" href="docbook-xsl.css" /><meta name="generator" content="DocBook XSL Stylesheets V1.78.0" /></head><body><div xml:lang="en" class="article" lang="en"><div class="titlepage"><div><div><h2 class="title"><a id="idp1377938312"></a>WhiteDB command line utilities</h2></div></div><hr /></div><div class="toc"><p><strong>Table of Contents</strong></p><dl class="toc"><dt><span class="section"><a href="#_wgdb_general_database_management">1. wgdb - general database management</a></span></dt><dt><span class="section"><a href="#_indextool_index_management">2. indextool - index management</a></span></dt><dt><span class="section"><a href="#_dserve_simple_rest_queries_with_json">3. dserve - simple REST queries with json</a></span></dt><dd><dl><dt><span class="section"><a href="#_query_by_field_values">3.1. Query by field values</a></span></dt><dt><span class="section"><a href="#_query_by_record_id_s">3.2. Query by record id-s</a></span></dt><dt><span class="section"><a href="#_good_to_know">3.3. Good to know</a></span></dt></dl></dd></dl></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_wgdb_general_database_management"></a>1. wgdb - general database management</h2></div></div></div><p>This is a simple command-line utility that allows creating and freeing
 a database, dump, import, run some tests and more.</p><p>Usage:</p><pre class="literallayout">wgdb [shmname] &lt;command&gt; [command arguments]</pre><p>The shared memory name identifies the database to use and is an arbitrary
 numeric value. If it is omitted, the default ("1000") will be used.</p><p>Commands commonly available:</p><pre class="literallayout">help (or "-h") - display this text.
 version (or "-v") - display libwgdb version.
@@ -25,4 +25,75 @@ indextool [shmname] createhash &lt;columns&gt; - create hash index (JSON support
 indextool [shmname] dropindex &lt;index id&gt; - delete ttree index
 indextool [shmname] list - list all indexes in database
 indextool [shmname] logtree &lt;index id&gt; [filename] - log tree
-indextool [shmname] dumphash &lt;index id&gt; - print hash table</pre></div></div></body></html>
+indextool [shmname] dumphash &lt;index id&gt; - print hash table</pre></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_dserve_simple_rest_queries_with_json"></a>3. dserve - simple REST queries with json</h2></div></div></div><p>This is a simple REST service tool taking a query described with cgi parameters
+and printing json or csv output.</p><p><code class="literal">dserve</code> is useful both as a tool and as an example/template for making your own
+tools for WhiteDB data handling. <code class="literal">dserve</code> is not compiled by default.
+Find it under the Examples folder as dserve.c and compile yourself by doing:</p><pre class="literallayout">gcc dserve.c -c dserve -O2 -lwgdb</pre><p>Copy the resulting executable under the cgi folder of the Apache server.</p><p>You can use <code class="literal">dserve</code> as a cgi program taking a few GET parameters like this</p><pre class="literallayout">http://myserver.com/cgi-bin/dserve?op=search&amp;from=0&amp;count=5</pre><p>or as a command line program: on the command line simply pass the
+urlencoded query string as a single argument, for example</p><pre class="literallayout">dserve 'op=search&amp;from=0&amp;count=5'</pre><p>Observe that dserve does not facilitate adding or updating records in the
+database. We may add such a cgi utility in the future, but anyway, it is
+a good idea to write your own utilities exactly suiting your own needs.</p><p>Most of the dserve parameters are optional, i.e. have sensible defaults. Limits,
+error messages etc are all configurable by changing the macro definitions at
+the beginning of the C source.</p><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_query_by_field_values"></a>3.1. Query by field values</h3></div></div></div><p>You have to indicate the field numbers and the values
+to compare the contents of these fields with.
+The whole set of cgi parameters is as follows:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+db : numeric database name. Default 1000.
+</li><li class="listitem">
+op : either <code class="literal">search</code> or <code class="literal">recids</code>. Here we assume <code class="literal">search</code>,
+    will cover <code class="literal">recids</code> later.
+</li><li class="listitem">
+field : field number (0,1,2, etc) to check against the compared value.
+</li><li class="listitem">
+value : value to check the field contents against.
+    Examples: value=32, value=sometext.
+</li><li class="listitem">
+type : datatype of the value: null, int, double, str, char or record.
+    Guessed from the value by default.
+</li><li class="listitem">
+compare : equal, not_equal, lessthan, greater, ltequal or gtequal.
+    Default <code class="literal">equal</code>.
+</li><li class="listitem">
+from : skip initial matching records, start from the result nr given here.
+    Default 0.
+</li><li class="listitem">
+count : max number of matching records output. Default 10000.
+</li><li class="listitem">
+depth : max depth of nested trees of records. Default 100, hard limit 10000.
+    Set to 0 for hiding all sublists.
+    Modify the macro MAX_DEPTH_HARD to change the hard limit.
+</li><li class="listitem">
+format : either <code class="literal">json</code> or <code class="literal">csv</code>. Default <code class="literal">json</code>.
+</li><li class="listitem">
+escape : escaping special characters in json strings,
+    either <code class="literal">no</code> (only replace " with \") , <code class="literal">url</code> (urlencode %, " and all
+    non-ascii characters to be completely ascii-safe) or <code class="literal">json</code>
+    (not ascii-safe: replace only the minimal set indicated in the rfc).
+    Default <code class="literal">json</code>. NB! this parameter has no effect for csv,
+    where only " gets replaced with "".
+</li><li class="listitem">
+showid : <code class="literal">yes</code> or <code class="literal">no</code>, if <code class="literal">yes</code>, print the record offset (automatic id) as the
+    first element of each record, moving all the other fields one position to the right.
+    Default <code class="literal">no</code>.
+</li></ul></div><p>All the input values are assumed to be urlencoded.</p><p>The json output is a list of matching records. Each record is also presented as a list.
+The list elements are integers, doubles, strings or records (again represented as lists)
+pointed to from the field.  Null is printed as an empty list [].</p><p>All the other datatypes in WhiteDB are converted to strings in a mostly
+intuitive manner. Blobs are url-encoded. For csv and too deep json branches the full internal
+record is represented by its offset (encoded pointer, i.e. automatic id).</p><p>Notice that for a graph database the json output can be a complex tree of records. Cycles are
+possible, but can be inhibited by the depth parameter.</p><p>Importantly, you can give several sets of field/value/compare/count parameters to perform a
+complex and-query. Example:</p><pre class="literallayout">dserve 'op=search&amp;field=1&amp;value=100&amp;type=int&amp;compare=lessthan&amp;field=2&amp;value=10.3&amp;type=double&amp;compare=greater'</pre><p>In case you use several fields in the query, you have to fill the otherwise optional type
+and compare parameters for all the fields indicated. BTW, it is OK to put the same field
+into several comparisons.</p><p>You can also have no fields in the query at all. In this case the full database will be traversed
+and printed according to the parameters given.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_query_by_record_id_s"></a>3.2. Query by record id-s</h3></div></div></div><p>The second way to query is to simply indicate a list of record id-s (offsets: encoded record
+pointers) like this:</p><pre class="literallayout">dserve 'op=recids&amp;recids=12000,10236,22458'</pre><p>You can learn the record id-s by using the showid=yes parameter described before.</p><p>The database selection parameter <code class="literal">db</code> and the generic formatting parameters
+<code class="literal">depth</code>,<code class="literal">format</code>,<code class="literal">escape</code> and <code class="literal">showid</code> function exactly as described above.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_good_to_know"></a>3.3. Good to know</h3></div></div></div><p>Things to note and useful code examples in dserve:</p><div class="itemizedlist"><ul class="itemizedlist" style="list-style-type: disc; "><li class="listitem">
+does not require additional libraries except wgdb
+</li><li class="listitem">
+uses readlocks, does not use writelocks
+</li><li class="listitem">
+cgi parameter parsing
+</li><li class="listitem">
+various printing routines for WhiteDB values
+</li><li class="listitem">
+dynamic memory handling while printing
+</li><li class="listitem">
+error and timeout handling with signals
+</li></ul></div></div></div></div></body></html>
