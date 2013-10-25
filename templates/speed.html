@@ -70,13 +70,13 @@ and queries. The timings are obtained on a laptop with an Intel Core i7-2820QM a
 running 32-bit Gentoo Linux. Both the library and the tests are compiled with gcc 4.2.4, using the 
 optimization level -O2.
 <p>
-The field size in a record is 32 bits. Using 64 bit fields would probably make the
-operations slightly slower. 
+We run these tests on a 32-bit system with the field size in a record being also 32 bits. 
+Using 64 bit fields would probably make the operations slightly slower. 
 <p>
 All the tests are run as a single process without threads, hence utilizing a single processor core and not requiring
 any locks. 
 As the <a href="doc/WhiteDBYCSBtest_v3.pdf">Yahoo benchmark results</a> indicate, you can get higher throughput using multiple
-processes/cores. On the other hand, multiple processes would require locking, i.e. inserting
+processes/cores. On the other hand, multiple processes doing writes would require locking, i.e. inserting
 <code class="literal">wg_start_write</code>, <code class="literal">wg_start_read</code>, <code class="literal">wg_end_write</code>, <code class="literal">wg_end_read</code> from the C API into the test
 code. Locking speed depends
 on both where you call the lock functions and the locking strategy set during WhiteDB configuration. As said before, the

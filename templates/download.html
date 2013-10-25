@@ -1,17 +1,73 @@
 
 <!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron" style="margin-bottom: 100px;">
+<div class="jumbotron" >
   <div class="container" style="text-align: left">
     <h1 class="jumbotron_title">Download </h1>
     <p class="jumbotron_caption">Github snapshot or a tested release: both options are OK for Linux and Windows
     </p>
     <p style="margin-top: 30px;">
+    <a class="btn smallbtn btn-primary" style="margin-right: 30px;"
+        href="whitedb-0.7.0.tar.gz">whitedb-0.7.0.tar.gz </a>
+    <a class="btn smallbtn btn-primary" style="margin-right: 30px;"
+        href="whitedb-0.6.1.tar.gz">whitedb-0.6.1.tar.gz </a>
     <a class="btn smallbtn btn-primary" style="margin-right: 30px;" 
         href="https://github.com/priitj/whitedb">Development on Github &raquo;</a>
-    <a class="btn smallbtn btn-primary" href="#">Release whitedb-0.6.tar.gz </a>
     </p>
   </div>  
 </div>
 
+<div class="container" style="margin-top: 25px; margin-bottom: 25px;">
+<h1 style="text-align: center">Release notes</h1>
+</div>
+
+<div class="container">
+  <!-- Example row of columns -->
+  <div class="row">
+     <div class="col-md-12 wblock wblock1">
+      <div class="wiblock wiblock_full">
+      
+      <h2 class="wiblock_full"><a href="whitedb-0.7.0.tar.gz">whitedb-0.7.0.tar.gz</a></h2>
+      <p>
+      MD5 fingerprint: 1fc87b02eaf230fc45c040a2ba33bbd0
+      <p>
+      The 0.7.0 release is the latest one, featuring several improvements over 0.6.1:
+      <ul>
+        <li>The simplified query mechanism <code class="literal">wg_find_record</code> added.</li>  
+        <li><code class="literal">wg_attach_existing_database</code> added.</li>        
+        <li>A fix for large memory segments on 32-bit architectures.</li>
+        <li>Error messages printed only to stderr.</li>
+        <li>An improved toolset and examples including <code class="literal">dserve</code>.</li>
+      </ul>
+      <p>
+      The 0.7.0 release contains a few non-documented features in 
+      active development and has not been through much testing yet. 
+      <p>
+      We recommend to download 0.7.0. 
+      
+      <p>      
+      <h2 class="wiblock_full"><a href="whitedb-0.6.1.tar.gz">whitedb-0.6.1.tar.gz</a></h2>
+      <p>
+      MD5 fingerprint: 37d9c25e973184db55f3e985d207f2da
+      <p>
+      The 0.6.1 release is stable. It has seen a lot of testing and use in production systems.
+      Except for the remarks about 0.7.0 above, the functionality is basically the same
+      as in 0.7.0.
+      
+      <p>
+      <h2 class="wiblock_full"><a href="https://github.com/priitj/whitedb">Development on Github</a></h2>      
+      <p>
+      
+      The Github main branch is used for active development. You will find unfinished 
+      components and features.
+      <p>
+      There is no configure script on the main branch: use the provided 
+      <code class="literal">bootstrap</code> script
+      running aclocal, autoheader, autoconf, libtoolize and automake to build the configure
+      script.
+      <p>
+      </div>
+    </div>        
+  </div>
+</div>
 
  

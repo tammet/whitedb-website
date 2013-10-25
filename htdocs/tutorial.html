@@ -165,7 +165,7 @@ of the WhiteDB source distribution.</p><p>A thorough reference of the API is ava
 you’re looking for information on how to use WhiteDB from Python, please see
 <a class="ulink" href="python_api.html" target="_top">Python documentation</a> (also in semi-tutorial form).</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_compiling_the_examples"></a>2. Compiling the examples</h2></div></div></div><p>Before we can get started with the tutorial, we need to know how to compile
 and run programs that use WhiteDB.</p><p>If you invoked the standard <code class="literal">./configure; make; make install</code>, things are
-quite simple. Let’s try to compile <span class="emphasis"><a href="code/demo.c">Examples/demo.c</a></span> (it’s already compiled,
+quite simple. Let’s try to compile <span class="emphasis"><em>Examples/demo.c</em></span> (it’s already compiled,
 but let’s do it again).</p><pre class="literallayout">gcc -o Examples/mydemo Examples/demo.c -lwgdb</pre><p>That’s it! This is how you’d normally compile and link a WhiteDB program.
 The <code class="literal">-lwgdb</code> tells the linker to use <span class="emphasis"><em>libwgdb.a</em></span> that sits somewhere in your
 library path. If you get an error at this point, it may be that your
@@ -743,7 +743,7 @@ where for example an array can contain other arrays or objects: the record
 linking feature allows us to accomplish this elegantly by making the array
 a record whose fields contain links to other records holding the child
 elements.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_more_examples"></a>10. More examples</h2></div></div></div><p>There are a few more examples distributed with WhiteDB that were not covered
-in this tutorial. You may look at <span class="emphasis"><a href="code/demo.c">Examples/demo.c</a></span> and <span class="emphasis"><a href="code/query.c">Examples/query.c</a></span> that
+in this tutorial. You may look at <span class="emphasis"><em>Examples/demo.c</em></span> and <span class="emphasis"><a href="code/query.c">Examples/query.c</a></span> that
 should be commented well enough to be understandable by now.</p><p>Examples in Examples/speed are geared towards speed testing and are covered
 in <a class="ulink" href="http://whitedb.org/speed.html" target="_top">http://whitedb.org/speed.html</a></p><p>A bit more involved example to look at is <span class="emphasis"><a href="code/dserve.c">Examples/dserve.c</a></span>: making queries
 from WhiteDB with a simple REST cgi program giving json or csv output.
