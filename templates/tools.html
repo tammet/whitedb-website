@@ -46,8 +46,9 @@ query &lt;col&gt; "&lt;cond&gt;" &lt;value&gt; .. - basic query.
 del &lt;col&gt; "&lt;cond&gt;" &lt;value&gt; .. - like query. Matching rows are deleted from database.
 server [size b] - provide persistent shared memory for other processes (Windows).
 create [size b] - create empty db of given size (non-Windows).</pre></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_indextool_index_management"></a>2. indextool - index management</h2></div></div></div><p><code class="literal">indextool</code> is for listing and managing database indexes. It takes the shared
-memory name as an argument (there is no default). The <code class="literal">logtree</code> and <code class="literal">dumphash</code>
-commands are for debugging and may produce a lot of output.</p><pre class="literallayout">indextool [shmname] createindex &lt;column&gt; - create ttree index
+memory name as an argument. If it is omitted, the default ("1000") will be
+used. The <code class="literal">logtree</code> and <code class="literal">dumphash</code> commands are for debugging and may produce
+a lot of output.</p><pre class="literallayout">indextool [shmname] createindex &lt;column&gt; - create ttree index
 indextool [shmname] createhash &lt;columns&gt; - create hash index (JSON support)
 indextool [shmname] dropindex &lt;index id&gt; - delete ttree index
 indextool [shmname] list - list all indexes in database
@@ -56,7 +57,7 @@ indextool [shmname] dumphash &lt;index id&gt; - print hash table</pre></div><div
 and printing json or csv output.</p><p><code class="literal">dserve</code> is useful both as a ready-made tool and as an example/template for making
 your own tools for WhiteDB data handling.
 <code class="literal">dserve</code> is not compiled by default. Find it under the Examples folder as a
-single source file dserve.c, modify and compile yourself by doing:</p><pre class="literallayout">gcc dserve.c -c dserve -O2 -lwgdb</pre><p>Copy the resulting executable under the cgi folder of the Apache server.</p><p>You can use <code class="literal">dserve</code> as a cgi program taking a few GET parameters like this</p><pre class="literallayout">http://myserver.com/cgi-bin/dserve?op=search&amp;from=0&amp;count=5</pre><p>or as a command line program: on the command line simply pass the
+single source file dserve.c, modify and compile yourself by doing:</p><pre class="literallayout">gcc dserve.c -o dserve -O2 -lwgdb</pre><p>Copy the resulting executable under the cgi folder of the Apache server.</p><p>You can use <code class="literal">dserve</code> as a cgi program taking a few GET parameters like this</p><pre class="literallayout">http://myserver.com/cgi-bin/dserve?op=search&amp;from=0&amp;count=5</pre><p>or as a command line program: on the command line simply pass the
 urlencoded query string as a single argument, for example</p><pre class="literallayout">dserve 'op=search&amp;from=2&amp;count=3'</pre><p>This will print rows 2..4 of the database, like this:</p><pre class="screen">content-length: 110
 content-type: application/json
 
@@ -124,7 +125,7 @@ The whole set of cgi parameters is as follows:</p><div class="itemizedlist"><ul 
     Default <code class="literal">json</code>. NB! this parameter has no effect for csv,
     where only " gets replaced with "".
 </li><li class="listitem">
-<span class="strong"><strong>showid</strong></span> : <code class="literal">yes</code> or <code class="literal">no</code>, if <code class="literal">yes</code>, print the record offset (automatic id) as the
+*showid : <code class="literal">yes</code> or <code class="literal">no</code>, if <code class="literal">yes</code>, print the record offset (automatic id) as the
     first element of each record, moving all the other fields one position to the right.
     Default <code class="literal">no</code>.
 </li></ul></div><p>All the input values are assumed to be urlencoded.</p><p>The json output is a list of matching records. Each record is also presented as a list.
