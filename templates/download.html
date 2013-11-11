@@ -28,14 +28,13 @@
       
       <h2 class="wiblock_full"><a href="whitedb-0.7.1.tar.gz">whitedb-0.7.1.tar.gz</a></h2>
       <p>
-      MD5 fingerprint: 5286505322089c0766255aaed8ebff28
+      MD5 fingerprint: 2e455a956377d3f014f8c32af399ce24
       <p>
       The 0.7.1 release contains the following improvements since 0.7.0:
       <ul>
         <li>64-bit Windows builds fixed (thanks malkia)</li>
         <li>fixed index metadata initialization</li>
-        <li>updated the JSON parser (new version comes with a FOSS compatible license)</li>
-        <li>minor improvements in Python api code and C header file structure</li>
+        <li>replaced the included JSON parser with YAJL (https://github.com/lloyd/yajl)</li>
         <li>printing fix in dserve.c tool</li>
         <li>documentation updates</li>
       </ul>
@@ -51,7 +50,8 @@
       components and features.
       <p>
       There is no configure script on the main branch: use the provided 
-      <code class="literal">Bootstrap</code> script to build the configure
+      <code class="literal">Bootstrap</code> script
+      running aclocal, autoheader, autoconf, libtoolize and automake to build the configure
       script.
       <p>
       </div>
