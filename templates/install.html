@@ -29,8 +29,9 @@ make install</pre><p>This produces the database utilities, the library and insta
 them together with the database header files.</p><p>Under Windows, check that you have MSVC installed. Open the command
 prompt with the Visual C environment configured and type:</p><pre class="literallayout">compile.bat</pre><p>This produces the database utilities, <span class="emphasis"><em>wgdb.lib</em></span> and <span class="emphasis"><em>wgdb.dll</em></span>.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_the_shared_memory"></a>3. The shared memory</h2></div></div></div><p>Under Linux, the default memory settings are sufficient for testing
 and initial evaluation. For increasing the maximum amount of shared
-memory, type:</p><pre class="literallayout">sysctl kernel.shmmax=100000000</pre><p>This example sets the available shared memory to 100M bytes. You can
-add this setting to <span class="emphasis"><em>/etc/sysctl.conf</em></span> to make it permanent.</p><p>Under Windows, the shared memory is not persistent. To maintain a
+memory, type:</p><pre class="literallayout">sysctl kernel.shmmax=100000000</pre><p>This example sets the available shared memory to 100M bytes. Under Mac OS X
+you need to set a kern.sysv.shmmax and kern.sysv.shmall, type:</p><pre class="literallayout">sudo sysctl -w kern.sysv.shmmax=1073741824
+sudo sysctl -w kern.sysv.shmall=262144</pre><p>You can add these settings to <span class="emphasis"><em>/etc/sysctl.conf</em></span> to make it permanent.</p><p>Under Windows, the shared memory is not persistent. To maintain a
 persistent database, use</p><pre class="literallayout">wgdb server 100000000</pre><p>This example creates a shared memory database of 100M bytes. Once
 this process is terminated, the shared memory is destroyed.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_the_configure_script"></a>4. The configure script</h2></div></div></div><p>Some more relevant options to the configure script are:</p><p><span class="emphasis"><em>--prefix=PREFIX</em></span>  specifies the directory the program is
 installed under. The binaries go in <span class="emphasis"><em>PREFIX/bin</em></span>, the header files

@@ -206,11 +206,13 @@
   atomic <a href="http://en.wikipedia.org/wiki/Spinlock">spinlock</a> queue for concurrency control,
   but alternative faster and simpler preference policies can be configured: either a  
   reader-preference or a writer-preference spinlock.
-  <p>
+  <p>  
   Generally, a database level lock is characterized by very low overhead but 
   maximum possible contention. 
   This means that processes should spend as little time between 
   acquiring a lock and releasing it, as possible.
+  <p>
+  We provide safe atomic updates of simple values without taking a write lock.
       </div>
     </div>
     <div class="col-md-4 wblock wblock3">
