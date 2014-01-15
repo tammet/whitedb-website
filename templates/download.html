@@ -28,14 +28,21 @@
       
       <h2 class="wiblock_full"><a href="whitedb-0.7.2.tar.gz">whitedb-0.7.2.tar.gz</a></h2>
       <p>
-      Date: 2013-01-15, MD5 fingerprint: c5f92df6024fb4acbb977ff596a7a4c4, 
+      Date: 2014-01-15, MD5 fingerprint: c5f92df6024fb4acbb977ff596a7a4c4, 
       <p>
       The 0.7.2 release contains the following improvements since 0.7.1:
       <ul>
-        <li>logging to disk significantly improved and documented</li>
-        <li>atomic field updates for simple values without a need for write lock</li>
-        <li>wg_field_addr macro for direct access to fields</li>
-        <li>improved allocation when memory is running low</li>
+        <li>Logging to disk significantly improved and documented: see 
+           <code class="literal">wg_attach_logged_database</code>, <code class="literal">wg_start_logging</code>, 
+           <code class="literal">wg_stop_logging</code>,
+           <code class="literal">wg_replay_log</code> in addition to earlier 
+           <code class="literal">wg_dump</code> and <code class="literal">wg_import_dump</code>.</li>
+        <li>Atomic field updates for simple values without a need for write lock: see
+          <code class="literal">wg_update_atomic_field</code>, 
+          <code class="literal">wg_set_atomic_field</code>, 
+          <code class="literal">wg_add_int_atomic_field</code>.</li>
+        <li>Fast direct access to fields: see the <code class="literal">wg_field_addr</code> macro.</li>
+        <li>Improved allocation when memory is running low.</li>
       </ul>
       <p>      
       New features are documented in the <a href="c_api.html">C api</a>.

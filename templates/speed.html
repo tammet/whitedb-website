@@ -281,7 +281,7 @@ neither the fastest nor the simplest way of going through complex data structure
 <p>
 It is much faster and easier to store direct pointers to records.
 <p>
-<a href="code/speed16.c">speed15.c</a> builds a database of 10 million records and stores a pointer
+<a href="code/speed15.c">speed15.c</a> builds a database of 10 million records and stores a pointer
 to the previously created record to the field 3 of each record. Essentially, all the 10 million records will
 form a long chain from the last record back to the first. Additionally, we store a pointer
 to the last record into field 2 of the very first record, to directly access the last record later.
