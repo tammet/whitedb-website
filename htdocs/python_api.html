@@ -174,7 +174,9 @@ able to locate the <span class="emphasis"><em>Python.h</em></span> file in the s
 assumed that Python is not properly installed and WhiteDB will be
 compiled without Python bindings).</p><p>When building manually, use the separate scripts in Python directory.
 Check that the Python path in <span class="emphasis"><em>compile.sh</em></span> (<span class="emphasis"><em>compile.bat</em></span> for Windows)
-matches your system.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_installation"></a>2.2. Installation</h3></div></div></div><p>The high level <span class="emphasis"><em>whitedb.py</em></span> module expects to find the compiled <span class="emphasis"><em>wgdb.so</em></span>
+matches your system. On non-Windows systems, also check that the
+<span class="emphasis"><em>config.h</em></span> file in the top level directory exists. If not, <code class="literal">cp config-gcc.h
+config.h</code> will provide a default one.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_installation"></a>2.2. Installation</h3></div></div></div><p>The high level <span class="emphasis"><em>whitedb.py</em></span> module expects to find the compiled <span class="emphasis"><em>wgdb.so</em></span>
 module in the same directory it resides in. To install the modules,
 they can be copied to Python site-packages directory manually.</p></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_compatibility"></a>2.3. Compatibility</h3></div></div></div><p>Minimum version of Python required: 2.5. Other tested versions: 2.6, 2.7
 and 3.3. Note that Python 3 is supported but is not extensively tested yet.</p></div></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="anchor-2"></a>3. wgdb.so (wgdb.pyd) module</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="_attaching_and_deleting_a_database"></a>3.1. Attaching and deleting a database</h3></div></div></div><pre class="literallayout">FUNCTIONS
@@ -268,7 +270,9 @@ TIMETYPE      - datetime.time()
 URITYPE       - Python string. ext_str defines URI prefix
 XMLLITERALTYPE - Python string. ext_str defines type.
 VARTYPE       - (varnum, VARTYPE) tuple.</pre><p><code class="literal">ext_str</code> is an optional keyword argument. For string types it has varied
-meaning depending on the type selected. For other types it is ignored.</p><p>Examples:</p><pre class="literallayout">&gt;&gt;&gt; d=wgdb.attach_database()
+meaning depending on the type selected. For other types it is ignored.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><span class="label label-info">!</span></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>With Python 2, Unicode objects are not accepted where a string
+object is expected. However, this can be worked around by converting
+the <span class="emphasis"><em>unicode</em></span> type to <span class="emphasis"><em>str</em></span> type. Example: <code class="literal">unicodestr.encode('utf-8')</code>.</p></td></tr></table></div><p>Examples:</p><pre class="literallayout">&gt;&gt;&gt; d=wgdb.attach_database()
 ...
 &gt;&gt;&gt; tmp=wgdb.create_record(d,4)
 &gt;&gt;&gt; tmp

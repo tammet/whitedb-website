@@ -155,11 +155,16 @@ Windows) and link your application against that
 </li><li class="listitem">
 compile your application program by including the database files directly
 </li></ul></div><p>In both of  these cases your application using WhiteDB calls should
-include the API header file: <span class="emphasis"><em>dbapi.h</em></span></p><p>In addition, you may want to compile the included utility programs (<code class="literal">wgdb</code>
-and <code class="literal">indextool</code>) to manage the database.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_quick_start_instructions"></a>2. Quick-start instructions</h2></div></div></div><p>Under Linux, type</p><pre class="literallayout">./configure
+include the API header file: <span class="emphasis"><em>dbapi.h</em></span></p><p>In addition, you may want to compile the included utility program (<code class="literal">wgdb</code>)
+to manage the database.</p><p>If you’re installing from a source package, see the <a class="xref" href="#anchor-1" title="2. Quick-start instructions">Section 2, “Quick-start instructions”</a>
+immediately below. If you grabbed the source code from the source repository,
+please read <a class="xref" href="#anchor-2" title="5. Building the repository version">Section 5, “Building the repository version”</a> first. If you have a binary
+package for your system, follow the instructions for installing packages
+on your system instead.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="anchor-1"></a>2. Quick-start instructions</h2></div></div></div><p>These instructions assume you’re installing from a distribution source package.</p><p>Under Linux, type</p><pre class="literallayout">./configure
 make
 make install</pre><p>This produces the database utilities, the library and installs the
-them together with the database header files.</p><p>Under Windows, check that you have MSVC installed. Open the command
+them together with the database header files.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><span class="label label-info">!</span></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>on Debian and Ubuntu, you may need to additionally run <code class="literal">ldconfig</code>
+as root.</p></td></tr></table></div><p>Under Windows, check that you have MSVC installed. Open the command
 prompt with the Visual C environment configured and type:</p><pre class="literallayout">compile.bat</pre><p>This produces the database utilities, <span class="emphasis"><em>wgdb.lib</em></span> and <span class="emphasis"><em>wgdb.dll</em></span>.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_the_shared_memory"></a>3. The shared memory</h2></div></div></div><p>Under Linux, the default memory settings are sufficient for testing
 and initial evaluation. For increasing the maximum amount of shared
 memory, type:</p><pre class="literallayout">sysctl kernel.shmmax=100000000</pre><p>This example sets the available shared memory to 100M bytes. Under Mac OS X
@@ -182,20 +187,32 @@ lower overhead.</p><p><span class="emphasis"><em>--enable-logging</em></span>  e
 somewhat experimental; off by default.</p><p><span class="emphasis"><em>--enable-reasoner</em></span>  enables the Gandalf reasoner. Disabled by default.</p><p><span class="emphasis"><em>--disable-backlink</em></span>  disables references between records. May be used
 to increase performance if the database records never contain any
 links to other records.</p><p><span class="emphasis"><em>--disable-checking</em></span>  disables sanity checking in many internal
-database operations. Increases performance by a small percentage.</p><p><code class="literal">./configure --help</code> will provide the full list of available options.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_building_the_repository_version"></a>5. Building the repository version</h2></div></div></div><p>The github repository (<a class="ulink" href="https://github.com/priitj/whitedb" target="_top">https://github.com/priitj/whitedb</a>) does not
-contain a pre-generated configure script. You’ll need the autoconf and
-automake packages, if you have those installed, run:</p><pre class="literallayout">./Bootstrap</pre><p>This generates the <code class="literal">configure</code> script and other scripts used by the
-autotools build.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_building_the_utilities_without_configure_and_gnu_make"></a>6. Building the utilities without configure and GNU make</h2></div></div></div><p>The <code class="literal">compile.sh</code> script is provided to allow compiling the utilities
+database operations. Increases performance by a small percentage.</p><p><code class="literal">./configure --help</code> will provide the full list of available options.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="anchor-2"></a>5. Building the repository version</h2></div></div></div><p>The github repository (<a class="ulink" href="https://github.com/priitj/whitedb" target="_top">https://github.com/priitj/whitedb</a>) does not
+contain a pre-generated configure script. You’ll need the autoconf,
+automake and libtool packages. If you have those installed, run:</p><pre class="literallayout">./Bootstrap</pre><p>This generates the <code class="literal">configure</code> script and other scripts used by the
+autotools build. Then you can continue with the normal installation
+process.</p><p>Keep in mind that the repository version is a work in progress and may
+therefore be unstable and contain undocumented and incomplete features.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_building_the_utilities_without_configure_and_gnu_make"></a>6. Building the utilities without configure and GNU make</h2></div></div></div><p>The <code class="literal">compile.sh</code> script is provided to allow compiling the utilities
 with the C compiler. This is intended to simplify building in
 cross-target or embedded environments. It is assumed that the
-GNU C Compiler (<code class="literal">gcc</code>) is used.</p><p>When the script is executed the first time, it copies <span class="emphasis"><em>config-gcc.h</em></span>
+GNU C Compiler (<code class="literal">gcc</code>) or the CLang Compiler (<code class="literal">clang</code>) is used.</p><p>When the script is executed with <span class="emphasis"><em>gcc</em></span> as first parameter or without
+parameters, GNU C Compiler is used. You can use CLang compiler using
+<span class="emphasis"><em>clang</em></span> as first parameter for this script.</p><p>When the script is executed the first time, it copies <span class="emphasis"><em>config-gcc.h</em></span>
 to <span class="emphasis"><em>config.h</em></span>, unless that file is already present. Edit <span class="emphasis"><em>config.h</em></span> to
-change database options.</p><p>Under Windows, <code class="literal">compile.bat</code> serves a similar function. To change the
-database options, edit the <span class="emphasis"><em>config-w32.h</em></span> file.</p><p>Note that in both cases, the config file for building the utilities
-<code class="literal">indextool</code> and <code class="literal">wgdb</code> should match the config file for building your
-database application.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_not_building_anything"></a>7. Not building anything</h2></div></div></div><p>Building the database library and the utilities is not strictly necessary.
+change database options. Note that if your system generates 64-bit
+binaries, then the macro <code class="literal">HAVE_64BIT_GINT</code> needs to be enabled explicitly.
+Uncomment the compilation of <code class="literal">selftest</code> in the compilation script and
+run it, if in doubt about whether the configuration is correct.</p><p>Under Windows, <code class="literal">compile.bat</code> serves a similar function. To change the
+database options, edit the <span class="emphasis"><em>config-w32.h</em></span> file.</p><p>Note that in both cases, the config file for building the <code class="literal">wgdb</code> utility
+should match the config file for building your database application.</p></div><div class="section"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a id="_not_building_anything"></a>7. Not building anything</h2></div></div></div><p>Building the database library and the utilities is not strictly necessary.
 Alternatively you may compile the database sources directly into your
-program.</p><p>See <span class="emphasis"><a href="code/compile_demo.sh">Examples/compile_demo.sh</a></span> (<span class="emphasis"><em>Examples\compile_demo.bat</em></span> under
+program.</p><p>An effective way of doing this is executing the shell script <code class="literal">unite.sh</code> which
+will produce an amalgamation of header files, and an amalgamation of source
+files.  The end result is two files: <span class="emphasis"><em>whitedb.h</em></span>, and <span class="emphasis"><em>whitedb.c</em></span>. These can
+easily be included in your repository, or code base, and compiled directly in,
+while conforming to the license terms.</p><div class="note" style="margin-left: 0; margin-right: 10%;"><table border="0" summary="Note"><tr><td rowspan="2" align="center" valign="top" width="25"><span class="label label-info">!</span></td><th align="left">Note</th></tr><tr><td align="left" valign="top"><p>The <span class="emphasis"><em>whitedb.h</em></span> header produced this way is not the same as the standard
+API header. For better compatibility, consider including the <span class="emphasis"><em>Db/dbapi.h</em></span>
+header in your own sources, as documented elsewhere.</p></td></tr></table></div><p>See <span class="emphasis"><a href="code/compile_demo.sh">Examples/compile_demo.sh</a></span> (<span class="emphasis"><em>Examples\compile_demo.bat</em></span> under
 Windows). This compiles the demo program <span class="emphasis"><em>demo.c</em></span> with the WhiteDB source
 files. These programs and scripts may be used as templates for creating
 database applications.</p></div></div>
