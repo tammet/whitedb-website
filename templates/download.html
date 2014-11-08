@@ -7,7 +7,7 @@
     </p>
     <p style="margin-top: 30px;">
     <a class="btn smallbtn btn-primary" style="margin-right: 30px;"
-        href="whitedb-0.7.2.tar.gz">whitedb-0.7.2.tar.gz </a>
+        href="whitedb-0.7.3.tar.gz">whitedb-0.7.3.tar.gz </a>
     <!--<a class="btn smallbtn btn-primary" style="margin-right: 30px;"
         href="whitedb-0.6.1.tar.gz">whitedb-0.6.1.tar.gz </a>-->
     <a class="btn smallbtn btn-primary" style="margin-right: 30px;" 
@@ -26,26 +26,23 @@
      <div class="col-md-12 wblock wblock1">
       <div class="wiblock wiblock_full">
       
-      <h2 class="wiblock_full"><a href="whitedb-0.7.2.tar.gz">whitedb-0.7.2.tar.gz</a></h2>
+      <h2 class="wiblock_full"><a href="whitedb-0.7.3.tar.gz">whitedb-0.7.3.tar.gz</a></h2>
       <p>
-      Date: 2014-01-15, MD5 fingerprint: c5f92df6024fb4acbb977ff596a7a4c4, 
+      Date: 2014-11-08, MD5 fingerprint: fb9d79ad19d65f3f50fe3f82316a9721
       <p>
-      The 0.7.2 release contains the following improvements since 0.7.1:
+      The 0.7.3 release contains the following improvements since 0.7.2:
       <ul>
-        <li>Logging to disk significantly improved and documented: see 
-           <code class="literal">wg_attach_logged_database</code>, <code class="literal">wg_start_logging</code>, 
-           <code class="literal">wg_stop_logging</code>,
-           <code class="literal">wg_replay_log</code> in addition to earlier 
-           <code class="literal">wg_dump</code> and <code class="literal">wg_import_dump</code>.</li>
-        <li>Atomic field updates for simple values without a need for write lock: see
-          <code class="literal">wg_update_atomic_field</code>, 
-          <code class="literal">wg_set_atomic_field</code>, 
-          <code class="literal">wg_add_int_atomic_field</code>.</li>
-        <li>Fast direct access to fields: see the <code class="literal">wg_field_addr</code> macro.</li>
-        <li>Improved allocation when memory is running low.</li>
+        <li>Shared memory permissions are now supported on systems where SysV IPC is used.</li>
+        <li>Improved portability (some target architecture-related flags are no longer
+        used allowing the compiler to make smarter choices; better clang compatibility).</li>
+        <li>Split the regression tests from the database library and reorganized them. <code class="literal">make check</code> is now supported.</li>
+        <li>The <code class="literal">wgdb</code> tool now handles all common management functions, other tools are deprecated.</li>
+        <li>Fixed a memory leak in the Python module (Patrick Chen, Abishek Nanda)</li>
+        <li><i>unite.sh</i> script to create an easily embeddable amalgamation of source files (necrophcodr).</li>
+        <li>Support clang and other compilers when compiling manually (Jean-Marie Renouard, necrophcodr).</li>
+        <li>Numerous bugfixes.</li>
       </ul>
-      <p>      
-      New features are documented in the <a href="c_api.html">C api</a>.
+      <p>
       The full change log is available via
       <a href="https://github.com/priitj/whitedb/commits/master">github commits</a>.                  
       
@@ -74,7 +71,19 @@
   <div class="row">
      <div class="col-md-12 wblock wblock1">
       <div class="wiblock wiblock_full">
-      
+      <h2 class="wiblock_full"><a href="whitedb-0.7.2.tar.gz">whitedb-0.7.2.tar.gz</a></h2>
+      <p>
+      Date: 2014-01-15, MD5 fingerprint: c5f92df6024fb4acbb977ff596a7a4c4
+      <p>
+      The 0.7.2 release contains the following improvements since 0.7.1:
+        <li>Logging to disk significantly improved and documented.</li>
+        <li>Atomic field updates for simple values without a need for write lock.</li>
+        <li>Fast direct access to fields.</li>
+        <li>Improved allocation when memory is running low.</li>
+     <ul>
+      </ul>
+      <p>
+       
       <h2 class="wiblock_full"><a href="whitedb-0.7.1.tar.gz">whitedb-0.7.1.tar.gz</a></h2>
       <p>
       MD5 fingerprint: 2e455a956377d3f014f8c32af399ce24
